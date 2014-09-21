@@ -29,7 +29,7 @@ ScalaJSKeys.emitSourceMaps := true
 //// HTML5 Cordova, web application related modifications below
 
 // Target directory for the CSS compiled with less.
-(resourceManaged in (Compile, LessKeys.less)) := baseDirectory.value / "cordova" / "www" / "css" / "compiled"
+(resourceManaged in (Compile, LessKeys.less)) := baseDirectory.value / "ionic" / "www" / "css" / "compiled"
 
 // Extends the original fastOptJS and fullOptJS tasks by calling a custom method from the project/Build.scala file.
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
