@@ -1,14 +1,16 @@
 package com.olivergg.ionic
-import scala.scalajs.js
-import js.annotation._
-import scala.scalajs.js.RegExp
-import com.greencatsoft.angularjs.q.Promise
 
+import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
+import scala.scalajs.js.RegExp
+import scala.scalajs.js.annotation._
+import com.greencatsoft.angularjs.q.Promise
+import scala.scalajs.js.Dictionary
 
 trait IState extends js.Object {
   var name: String = ???
   var template: String = ???
-  var templateUrl: js.Any = ???
+  var templateUrl: String = ???
   var templateProvider: js.Any = ???
   var controller: js.Any = ???
   var controllerAs: String = ???
@@ -19,7 +21,30 @@ trait IState extends js.Object {
   var onEnter: js.Function = ???
   var onExit: js.Function = ???
   var data: js.Any = ???
+  var views: js.Dictionary[IView] = ???
 }
+
+trait IView extends js.Object {
+  var templateUrl: String = ???
+  var controller: String = ???
+}
+
+///////////////////////////////////////////////////////////
+///////TODO move the following implementation elsewhere.
+class State(someurl: String, isAbstract: Boolean = false, someTemplateUrl: String = "", someViews: Map[String, IView] = Map.empty) extends IState {
+  url = someurl
+  `abstract` = isAbstract
+  if (!someTemplateUrl.isEmpty()) {
+    templateUrl = someTemplateUrl
+  }
+  views = someViews.toJSDictionary
+}
+class View(someTemplateUrl: String, var someController: String) extends IView {
+  templateUrl = someTemplateUrl
+  controller = someController
+}
+/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
 
 trait ITypedState[T] extends js.Object {
   var name: String = ???
