@@ -39,7 +39,7 @@ class State(someurl: String, isAbstract: Boolean = false, someTemplateUrl: Strin
   }
   views = someViews.toJSDictionary
 }
-class View(someTemplateUrl: String, var someController: String) extends IView {
+class View(someTemplateUrl: String, someController: String) extends IView {
   templateUrl = someTemplateUrl
   controller = someController
 }
