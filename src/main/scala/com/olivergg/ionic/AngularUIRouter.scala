@@ -24,27 +24,32 @@ trait IState extends js.Object {
   var views: js.Dictionary[IView] = ???
 }
 
+object State {
+  def apply(url: String, isAbstract: Boolean = false, templateUrl: String = "", views: Map[String, IView] = Map.empty): IState = {
+    val out = new js.Object().asInstanceOf[IState]
+    out.url = url
+    out.`abstract` = isAbstract
+    if (!templateUrl.isEmpty()) {
+      out.templateUrl = templateUrl
+    }
+    out.views = views.toJSDictionary
+    out
+  }
+}
+
 trait IView extends js.Object {
   var templateUrl: String = ???
   var controller: String = ???
 }
 
-///////////////////////////////////////////////////////////
-///////TODO move the following implementation elsewhere.
-class State(someurl: String, isAbstract: Boolean = false, someTemplateUrl: String = "", someViews: Map[String, IView] = Map.empty) extends IState {
-  url = someurl
-  `abstract` = isAbstract
-  if (!someTemplateUrl.isEmpty()) {
-    templateUrl = someTemplateUrl
+object View {
+  def apply(templateUrl: String, controller: String): IView = {
+    val out = new js.Object().asInstanceOf[IView]
+    out.templateUrl = templateUrl
+    out.controller = controller
+    out
   }
-  views = someViews.toJSDictionary
 }
-class View(someTemplateUrl: String, someController: String) extends IView {
-  templateUrl = someTemplateUrl
-  controller = someController
-}
-/////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
 
 trait ITypedState[T] extends js.Object {
   var name: String = ???

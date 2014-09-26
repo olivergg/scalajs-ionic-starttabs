@@ -12,13 +12,13 @@ object PlatformInitializer extends IonicAware {
     ionicPlatform.ready { () =>
       println("ionicPlatform is ready")
       // should use typesafe window from WindowAware here instead of dynamic call.
-      if (!g.window.cordova.isInstanceOf[Unit] && !g.window.cordova.plugins.Keyboard.isInstanceOf[Unit]) {
-        g.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      }
-      if (!g.window.StatusBar.isInstanceOf[Unit]) {
-        // org.apache.cordova.statusbar required
-        g.window.StatusBar.styleDefault();
-      }
+//      if (!g.window.cordova.isInstanceOf[Unit] && !g.window.cordova.plugins.Keyboard.isInstanceOf[Unit]) {
+//        g.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+//      }
+//      if (!g.window.StatusBar.isInstanceOf[Unit]) {
+//        // org.apache.cordova.statusbar required
+//        g.window.StatusBar.styleDefault();
+//      }
     }
   }
 }
