@@ -32,7 +32,9 @@ object State {
     if (!templateUrl.isEmpty()) {
       out.templateUrl = templateUrl
     }
-    out.views = views.toJSDictionary
+    if (!views.isEmpty) {
+      out.views = views.toJSDictionary
+    }
     out
   }
 }
