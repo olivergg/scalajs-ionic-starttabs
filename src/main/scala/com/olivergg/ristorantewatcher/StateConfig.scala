@@ -11,6 +11,12 @@ object StateConfig extends StateProviderAware with UrlRouterProviderAware {
 
   override def initialize() {
     println("initialize StateConfig")
+    // Ionic uses AngularUI Router which uses the concept of states
+    // Learn more here: https://github.com/angular-ui/ui-router
+    // Set up the various states which the app can be in.
+    // Each state's controller can be found in controllers.js
+
+    // setup an abstract state for the tabs directive
     stateProvider
       .state("tab", State(
         url = "/tab",
@@ -18,6 +24,7 @@ object StateConfig extends StateProviderAware with UrlRouterProviderAware {
         templateUrl = "templates/tabs.html"
       ))
 
+      // Each tab has its own nav history stack:
       .state("tab.dash", State(
         url = "/dash",
         views = Map("tab-dash" -> View("templates/tab-dash.html", "DashCtrl"))
@@ -28,8 +35,8 @@ object StateConfig extends StateProviderAware with UrlRouterProviderAware {
         views = Map("tab-friends" -> View("templates/tab-friends.html", "FriendsCtrl"))
       ))
 
-      .state("tab.friends-detail", State(
-        url = "/friends/:friendId",
+      .state("tab.friend-detail", State(
+        url = "/friend/:friendId",
         views = Map("tab-friends" -> View("templates/friend-detail.html", "FriendDetailCtrl"))
       ))
 
@@ -38,9 +45,8 @@ object StateConfig extends StateProviderAware with UrlRouterProviderAware {
         views = Map("tab-account" -> View("templates/tab-account.html", "AccountCtrl"))
       ))
 
+    // if none of the above states are matched, use this as the fallback
     urlRouterProvider.otherwise("/tab/dash")
-
-    //TODO : more states !
 
   }
 }
