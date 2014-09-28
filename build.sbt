@@ -13,12 +13,15 @@ scalaVersion := "2.11.2"
 // Download and link sources for library dependencies
 EclipseKeys.withSource := true
 
+resolvers += 
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
 libraryDependencies ++= Seq(
     "org.scala-lang.modules.scalajs" %% "scalajs-jasmine-test-framework" % scalaJSVersion % "test",
     "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
     "org.scala-lang.modules.scalajs" %%% "scalajs-jquery" % "0.6",
     "com.scalatags" %%% "scalatags" % "0.4.0",
-    "com.greencatsoft" %%% "scalajs-angular" % "0.1"
+    "com.greencatsoft" %%% "scalajs-angular" % "0.2-SNAPSHOT"
 )
 
 ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM

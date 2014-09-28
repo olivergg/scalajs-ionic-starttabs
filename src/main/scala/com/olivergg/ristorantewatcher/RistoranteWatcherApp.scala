@@ -13,9 +13,22 @@ object RistoranteWatcherApp extends JSApp {
   override def main(): Unit = {
     println("start main")
     val app = angular.module("starter", Array("ionic", "starter.controllers", "starter.services"))
-    Module(app).run(PlatformInitializer)
-    		   .config(StateConfig)
+    Module(app)
+      .run(PlatformInitializer)
+      .config(StateConfig)
+
+    val controllers = angular.module("starter.controllers", Array.empty[String])
+    println("preparing controllers")
+    Module(controllers)
+      .controller(DashController)
+      .controller(FriendsController)
+
+    val services = angular.module("starter.services", Array.empty[String])
+    println("preparing services")
+    Module(services)
+      .factory(FriendsServiceImpl)
     println("end main")
+
   }
 
 }
