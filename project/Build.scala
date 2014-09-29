@@ -9,14 +9,16 @@ object MyBuild extends Build {
 
   def copyToCordova(jsFileList: Seq[VirtualJSFile]): Unit = {
     println("Invoking copyToCordova")
+    val output = new File(outputCordovaJS)
     jsFileList.foreach {
-      x => x match {
-        case ax:FileVirtualFile => {
-           println(s"Copying file ${ax.path} to $outputCordovaJS")
-          FileUtils.copyFileToDirectory(new File(ax.path), new File(outputCordovaJS))
+      x =>
+        x match {
+          case ax: FileVirtualFile => {
+            println(s"Copying file ${ax.path} to $outputCordovaJS")
+            FileUtils.copyFileToDirectory(new File(ax.path), output)
+          }
+          case _ => ;
         }
-        case _ => ;
-      }
     }
   }
 
