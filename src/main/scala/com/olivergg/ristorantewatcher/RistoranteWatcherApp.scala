@@ -22,6 +22,8 @@ object RistoranteWatcherApp extends JSApp {
     Module(controllers)
       .controller(DashController)
       .controller(FriendsController)
+      .controller(FriendDetailController)
+      .controller(AccountController)
 
     println("end main")
 

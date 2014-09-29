@@ -15,6 +15,11 @@ trait StateParamsAware extends InjectionTarget {
     var index = dependencies.indexOf(StateParams.Name) ensuring (_ >= 0)
     this.stateParams = args(index).asInstanceOf[StateParams]
   }
+  
+   implicit class DynamicStateParam(stateParam: StateParams) {
+
+    def dynamic = stateParam.asInstanceOf[js.Dynamic]
+  }
 
   
 }

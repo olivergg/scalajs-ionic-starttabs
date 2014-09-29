@@ -36,7 +36,7 @@ object StateConfig extends StateProviderAware with UrlRouterProviderAware {
       ))
 
       .state("tab.friend-detail", State(
-        url = "/friend/:friendId",
+        url = s"/friend/:friendId",
         views = Map("tab-friends" -> View("templates/friend-detail.html", "FriendDetailCtrl"))
       ))
 
