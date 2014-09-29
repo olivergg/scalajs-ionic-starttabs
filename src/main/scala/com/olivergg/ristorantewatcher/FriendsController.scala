@@ -8,8 +8,6 @@ import com.greencatsoft.angularjs.controller.AbstractController
 
 object FriendsController extends AbstractController("FriendsCtrl") with ScopeAware {
 
-  override type ScopeType = FriendsScope
-
   override def initialize(scope: ScopeType) {
     println(" init scope " + scope)
     scope.dynamic.friends = FriendsService.all
@@ -23,7 +21,7 @@ object FriendsController extends AbstractController("FriendsCtrl") with ScopeAwa
 
   }
 
-  abstract class FriendsScope extends Scope {
+  abstract class ScopeType extends Scope {
     var friends: Array[Friend]
   }
 }

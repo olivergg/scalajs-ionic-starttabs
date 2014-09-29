@@ -14,17 +14,15 @@ object FriendsService {
     Friend(2, "Miss Frizzle"),
     Friend(3, "Ash Ketchum")
   )
-  //  }
+
   def all(): Array[Friend] = {
     println("calling all")
-    println(friends.mkString(","))
     friends
   }
 
   def get(id: Int): Friend = {
-    println(s"get for id = $id")
+    println(s"calling get for id = $id")
     val out = friends(id)
-    println(s"get out = $out")
     out
   }
 }
