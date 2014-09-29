@@ -21,7 +21,7 @@ object FriendsController extends AbstractController("FriendsCtrl") with ScopeAwa
 
   }
 
-  abstract class ScopeType extends Scope {
+  trait ScopeType extends Scope {
     var friends: Array[Friend]
   }
 }
