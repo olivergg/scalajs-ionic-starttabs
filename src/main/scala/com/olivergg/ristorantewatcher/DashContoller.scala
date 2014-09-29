@@ -8,8 +8,9 @@ import com.greencatsoft.angularjs.scope.ScopeAware
 object DashController extends AbstractController("DashCtrl") with ScopeAware {
 
   override def initialize() {
-    super.initialize()
     println("init " + name)
+    super.initialize()
+    //TODO do something
   }
 }
 
