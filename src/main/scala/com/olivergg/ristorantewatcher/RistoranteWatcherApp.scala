@@ -9,24 +9,25 @@ import com.greencatsoft.angularjs.angular
 
 @JSExport
 object RistoranteWatcherApp extends JSApp {
-
   override def main(): Unit = {
     println("start main")
+    
+    // angular.module is a global place for creating, registering and retrieving Angular modules
+    // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+    // the 2nd parameter is an array of 'requires'
+    // 'starter.controllers' is defined in controllers below
     val app = angular.module("starter", Array("ionic", "starter.controllers"))
     Module(app)
       .run(PlatformInitializer)
       .config(StateConfig)
-
+      
     val controllers = angular.module("starter.controllers", Array.empty[String])
-    println("preparing controllers")
     Module(controllers)
       .controller(DashController)
       .controller(FriendsController)
       .controller(FriendDetailController)
       .controller(AccountController)
-
+      
     println("end main")
-
   }
-
 }

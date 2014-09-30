@@ -8,6 +8,7 @@ import com.greencatsoft.angularjs.InjectionTarget
 
 object FriendsService {
 
+  // Some fake testing data
   private var friends: Array[Friend] = Array(
     Friend(0, "Scruff McGruff"),
     Friend(1, "G.I. Joe"),
