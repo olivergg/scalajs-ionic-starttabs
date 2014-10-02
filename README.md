@@ -4,7 +4,18 @@ scalajs-ionic-starttabs
 An experimental mobile application written in scala-js and using the ionic framework.
 This application is the same one as the one created with : ```ionic start XXXXXXX tabs```
 
+To start development :
 
+```
+sbt 
+~fastOptJS
+```
+then, to run the app in the browser, you can use ripple-emulator
+```
+cd ionic
+ripple emulate www
+```
+(see https://www.npmjs.org/package/ripple-emulator)
 
 TODO 1
 
