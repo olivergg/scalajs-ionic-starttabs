@@ -11,7 +11,7 @@ object PlatformInitializer extends IonicAware {
   override def initialize() {
     ionicPlatform.ready { () =>
       println("ionicPlatform is ready")
-      // should use typesafe window from WindowAware here instead of dynamic call.
+      // should use Cordova API bindings.
 //      if (!g.window.cordova.isInstanceOf[Unit] && !g.window.cordova.plugins.Keyboard.isInstanceOf[Unit]) {
 //        g.cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 //      }
