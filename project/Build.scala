@@ -16,6 +16,8 @@ object MyBuild extends Build {
           case ax: FileVirtualFile => {
             println(s"Copying file ${ax.path} to $outputCordovaJS")
             FileUtils.copyFileToDirectory(new File(ax.path), output)
+            println(s"Copying file ${ax.path.toString + ".map"} to $outputCordovaJS")
+            FileUtils.copyFileToDirectory(new File(ax.path.toString + ".map"), output	)
           }
           case _ => ;
         }

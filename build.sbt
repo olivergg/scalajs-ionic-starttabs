@@ -29,6 +29,8 @@ ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM
 
 ScalaJSKeys.emitSourceMaps := true
 
+ScalaJSKeys.relativeSourceMaps := true
+
 //// HTML5 Cordova, web application related modifications below
 
 // Target directory for the CSS compiled with less.
