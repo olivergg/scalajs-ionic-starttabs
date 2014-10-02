@@ -4,7 +4,7 @@ scalaJSSettings
 // Turn this project into a less css aware project by importing these settings.
 lessSettings
 
-name := "Ristorante Watcher"
+name := "Scala-js Ionic Starter Application Tabs"
 
 version := "0.1-SNAPSHOT"
 
