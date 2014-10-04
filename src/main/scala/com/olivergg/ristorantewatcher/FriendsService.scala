@@ -1,11 +1,5 @@
 package com.olivergg.ristorantewatcher
 
-import scala.scalajs.js
-import scala.scalajs.js.annotation.JSExport
-
-import com.greencatsoft.angularjs.Factory
-import com.greencatsoft.angularjs.InjectionTarget
-
 object FriendsService {
 
   // Some fake testing data

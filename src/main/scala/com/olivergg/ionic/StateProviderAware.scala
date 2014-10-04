@@ -1,7 +1,8 @@
 package com.olivergg.ionic
 
-import com.greencatsoft.angularjs.InjectionTarget
 import scala.scalajs.js
+
+import com.greencatsoft.angularjs.InjectionTarget
 
 trait StateProviderAware extends InjectionTarget {
 

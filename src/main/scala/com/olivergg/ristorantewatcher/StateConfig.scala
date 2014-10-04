@@ -1,10 +1,8 @@
 package com.olivergg.ristorantewatcher
 
+import com.olivergg.ionic.State
 import com.olivergg.ionic.StateProviderAware
 import com.olivergg.ionic.UrlRouterProviderAware
-import scala.scalajs.js.Dynamic.{ literal => lit }
-import com.olivergg.ionic.IState
-import com.olivergg.ionic.State
 import com.olivergg.ionic.View
 
 object StateConfig extends StateProviderAware with UrlRouterProviderAware {

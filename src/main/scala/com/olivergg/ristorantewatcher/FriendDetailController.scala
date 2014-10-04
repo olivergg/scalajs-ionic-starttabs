@@ -1,10 +1,10 @@
 package com.olivergg.ristorantewatcher
 
-import com.greencatsoft.angularjs.controller.Controller
+import scala.scalajs.js
+
+import com.greencatsoft.angularjs.controller.AbstractController
 import com.greencatsoft.angularjs.scope.Scope
 import com.greencatsoft.angularjs.scope.ScopeAware
-import com.greencatsoft.angularjs.controller.AbstractController
-import scala.scalajs.js
 import com.olivergg.ionic.StateParamsAware
 
 object FriendDetailController extends AbstractController("FriendDetailCtrl") with ScopeAware with StateParamsAware {

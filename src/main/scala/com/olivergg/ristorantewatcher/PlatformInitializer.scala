@@ -1,10 +1,8 @@
 package com.olivergg.ristorantewatcher
 
-import scala.scalajs.js.Dynamic.{global => g}
-import com.olivergg.ionic.IonicAware
-import scala.scalajs.js.Any.fromBoolean
 import scala.scalajs.js.Any.fromFunction0
-import scala.scalajs.js.Dynamic.{global => g}
+
+import com.olivergg.ionic.IonicAware
 
 object PlatformInitializer extends IonicAware {
 

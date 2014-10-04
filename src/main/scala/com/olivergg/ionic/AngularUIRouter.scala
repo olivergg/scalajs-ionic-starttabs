@@ -1,11 +1,11 @@
 package com.olivergg.ionic
 
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
+import scala.scalajs.js.JSConverters.JSRichGenMap
 import scala.scalajs.js.RegExp
-import scala.scalajs.js.annotation._
+import scala.scalajs.js.annotation.JSBracketAccess
+
 import com.greencatsoft.angularjs.q.Promise
-import scala.scalajs.js.Dictionary
 
 trait IState extends js.Object {
   var name: String = ???

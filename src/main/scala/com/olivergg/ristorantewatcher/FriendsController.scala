@@ -1,11 +1,11 @@
 package com.olivergg.ristorantewatcher
 
-import scala.scalajs.js.Any.fromFunction0
-import com.greencatsoft.angularjs.controller.Controller
+import scala.scalajs.js
+import scala.scalajs.js.Any.fromArray
+
+import com.greencatsoft.angularjs.controller.AbstractController
 import com.greencatsoft.angularjs.scope.Scope
 import com.greencatsoft.angularjs.scope.ScopeAware
-import com.greencatsoft.angularjs.controller.AbstractController
-import scala.scalajs.js
 
 object FriendsController extends AbstractController("FriendsCtrl") with ScopeAware {
 
