@@ -14,10 +14,14 @@ object MyBuild extends Build {
       x =>
         x match {
           case ax: FileVirtualFile => {
+            val fjs = new File(ax.path)
+            val fmap = new File(ax.path.toString + ".map")
             println(s"Copying file ${ax.path} to $outputCordovaJS")
-            FileUtils.copyFileToDirectory(new File(ax.path), output)
-            println(s"Copying file ${ax.path.toString + ".map"} to $outputCordovaJS")
-            FileUtils.copyFileToDirectory(new File(ax.path.toString + ".map"), output	)
+            FileUtils.copyFileToDirectory(fjs, output)
+            if (fmap.exists()) {
+              println(s"Copying file ${ax.path.toString + ".map"} to $outputCordovaJS")
+              FileUtils.copyFileToDirectory(fmap, output)
+            }
           }
           case _ => ;
         }
