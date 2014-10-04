@@ -6,7 +6,7 @@ resolvers += "softprops-maven" at "http://dl.bintray.com/content/softprops/maven
 
 addSbtPlugin("me.lessis" % "less-sbt" % "0.2.2")
 
-addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.5.4")
+addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.5.5")
 
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.5.0")
 
