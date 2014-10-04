@@ -17,15 +17,12 @@ resolvers +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 libraryDependencies ++= Seq(
-    "org.scala-lang.modules.scalajs" %% "scalajs-jasmine-test-framework" % scalaJSVersion % "test",
     "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
-    "org.scala-lang.modules.scalajs" %%% "scalajs-jquery" % "0.6",
     "com.scalatags" %%% "scalatags" % "0.4.0",
-    "com.greencatsoft" %%% "scalajs-angular" % "0.2-SNAPSHOT"
+    "com.greencatsoft" %%% "scalajs-angular" % "0.1"
 )
 
 ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM
-
 
 ScalaJSKeys.emitSourceMaps := true
 
