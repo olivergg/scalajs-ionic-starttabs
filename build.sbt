@@ -19,7 +19,7 @@ resolvers +=
 libraryDependencies ++= Seq(
     "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
     "com.scalatags" %%% "scalatags" % "0.4.0",
-    "com.greencatsoft" %%% "scalajs-angular" % "0.1"
+    "com.greencatsoft" %%% "scalajs-angular" % "0.2-SNAPSHOT"
 )
 
 ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM
