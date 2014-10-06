@@ -1,9 +1,9 @@
 package com.olivergg.ristorantewatcher
 
+import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.runNow
 import scala.scalajs.js.annotation.JSExportAll
 
-import com.greencatsoft.angularjs.Injectable
 import com.greencatsoft.angularjs.http.HttpPromise.promise2future
 import com.greencatsoft.angularjs.http.HttpService
 
@@ -19,9 +19,9 @@ class FriendsService()(implicit http: HttpService) {
 
   def all(): Array[Friend] = {
     println("calling all")
-    val f = http.get("http://ip.jsontest.com/")
+    val f: Future[IPAddress] = http.get("http://ip.jsontest.com/")
     f.onSuccess {
-      case t => println("response from server " + t)
+      case ip => println("response from server IP = " + ip)
     }
     friends
   }
