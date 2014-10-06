@@ -11,7 +11,7 @@ import com.greencatsoft.angularjs.angular
 object RistoranteWatcherApp extends JSApp {
   override def main(): Unit = {
     println("start main")
-    
+
     // angular.module is a global place for creating, registering and retrieving Angular modules
     // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
     // the 2nd parameter is an array of 'requires'
@@ -20,14 +20,14 @@ object RistoranteWatcherApp extends JSApp {
     Module(app)
       .run(PlatformInitializer)
       .config(StateConfig)
-      
+
     val controllers = angular.module("starter.controllers", Array.empty[String])
     Module(controllers)
       .controller(DashController)
       .controller(FriendsController)
       .controller(FriendDetailController)
       .controller(AccountController)
-      
-    println("end main")
+    
+      println("end main")
   }
 }

@@ -1,6 +1,13 @@
 package com.olivergg.ristorantewatcher
 
-object FriendsService {
+import scala.scalajs.concurrent.JSExecutionContext.Implicits.runNow
+import scala.scalajs.js.annotation.JSExportAll
+
+import com.greencatsoft.angularjs.Injectable
+import com.greencatsoft.angularjs.http.HttpPromise.promise2future
+import com.greencatsoft.angularjs.http.HttpService
+
+class FriendsService()(implicit http: HttpService) {
 
   // Some fake testing data
   private var friends: Array[Friend] = Array(
@@ -12,6 +19,10 @@ object FriendsService {
 
   def all(): Array[Friend] = {
     println("calling all")
+    val f = http.get("http://ip.jsontest.com/")
+    f.onSuccess {
+      case t => println("response from server " + t)
+    }
     friends
   }
 
@@ -19,5 +30,19 @@ object FriendsService {
     println(s"calling get for id = $id")
     val out = friends(id)
     out
+  }
+}
+
+object FriendsService {
+  var friendsService: FriendsService = _
+
+  def apply()(implicit http: HttpService): FriendsService = {
+    if (friendsService == null) {
+      friendsService = new FriendsService()(http)
+      friendsService
+    }
+    else {
+      friendsService
+    }
   }
 }
