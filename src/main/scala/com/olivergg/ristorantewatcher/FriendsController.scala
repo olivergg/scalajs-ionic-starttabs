@@ -6,6 +6,7 @@ import com.greencatsoft.angularjs.controller.AbstractController
 import com.greencatsoft.angularjs.scope.Scope
 import com.greencatsoft.angularjs.scope.ScopeAware
 import com.greencatsoft.angularjs.http.HttpServiceAware
+import com.olivergg.ristorantewatcher.dto.Friend
 
 object FriendsController extends AbstractController("FriendsCtrl") with ScopeAware with HttpServiceAware {
 

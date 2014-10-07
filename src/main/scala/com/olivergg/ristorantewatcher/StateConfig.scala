@@ -4,7 +4,9 @@ import com.olivergg.ionic.State
 import com.olivergg.ionic.StateProviderAware
 import com.olivergg.ionic.UrlRouterProviderAware
 import com.olivergg.ionic.View
-
+/**
+ * This object should be passed to the config method of an angular module in order to setup the states. 
+ */
 object StateConfig extends StateProviderAware with UrlRouterProviderAware {
 
   override def initialize() {

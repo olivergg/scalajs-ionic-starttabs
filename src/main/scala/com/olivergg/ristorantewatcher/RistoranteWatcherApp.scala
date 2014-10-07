@@ -7,6 +7,9 @@ import scala.scalajs.js.annotation.JSExport
 import com.greencatsoft.angularjs.Module
 import com.greencatsoft.angularjs.angular
 
+/**
+ * The main entry point of the application. The main method is called from the index.html.
+ */
 @JSExport
 object RistoranteWatcherApp extends JSApp {
   override def main(): Unit = {
@@ -29,5 +32,7 @@ object RistoranteWatcherApp extends JSApp {
       .controller(AccountController)
     
       println("end main")
+      
+      
   }
 }

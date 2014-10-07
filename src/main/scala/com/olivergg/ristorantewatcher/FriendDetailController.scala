@@ -6,6 +6,7 @@ import com.greencatsoft.angularjs.scope.Scope
 import com.greencatsoft.angularjs.scope.ScopeAware
 import com.olivergg.ionic.StateParamsAware
 import com.greencatsoft.angularjs.http.HttpServiceAware
+import com.olivergg.ristorantewatcher.dto.Friend
 
 object FriendDetailController extends AbstractController("FriendDetailCtrl") with ScopeAware with StateParamsAware with HttpServiceAware {
 
