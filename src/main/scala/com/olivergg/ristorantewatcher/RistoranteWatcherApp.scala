@@ -3,9 +3,12 @@ package com.olivergg.ristorantewatcher
 import scala.scalajs.js.Any.fromArray
 import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
-
 import com.greencatsoft.angularjs.Module
 import com.greencatsoft.angularjs.angular
+import com.olivergg.ristorantewatcher.controller.DashController
+import com.olivergg.ristorantewatcher.controller.FriendsController
+import com.olivergg.ristorantewatcher.controller.FriendDetailController
+import com.olivergg.ristorantewatcher.controller.AccountController
 
 /**
  * The main entry point of the application. The main method is called from the index.html.
