@@ -9,16 +9,16 @@
 <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
-<!-- ionic/angularjs js -->
-<script src="lib/ionic/js/ionic.bundle.js"></script>
-<!-- cordova script (this will be a 404 during development) -->
+<!-- ionic/angularjs is included in the bundled jsdeps created by scala-js. 
+See the webjar dependencies in the build.sbt to add more javascript dependencies -->
+<script src="js/scala-js-ionic-starter-application-tabs-jsdeps.js"></script>
+<!-- cordova script (this will be a 404 during development unless you use something like ripple emulator and you copy yourself the cordova.js file -->
 <script src="cordova.js"></script>
 <!-- your app's js -->
 <script src="js/scala-js-ionic-starter-application-tabs-fastopt.js"></script>
 <script type="text/javascript">
 	com.olivergg.ristorantewatcher.RistoranteWatcherApp().main();
 </script>
-
 </head>
 <body ng-app="starter" animation="slide-left-right-ios7">
  <!-- 

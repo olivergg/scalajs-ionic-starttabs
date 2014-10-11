@@ -5,22 +5,24 @@ import scala.scalajs.tools.io._
 
 object MyBuild extends Build {
 
-  val outputCordovaJS = "ionic/www/js"
+  val outputCordovaJS = new File("ionic/www/js")
 
-  def copyToCordova(jsFileList: Seq[VirtualJSFile]): Unit = {
-    println("Invoking copyToCordova")
-    val output = new File(outputCordovaJS)
+  def copyToCordova(file: java.io.File): Unit = {
+    println(s"Copying file ${file.getAbsolutePath()} to $outputCordovaJS ")
+    FileUtils.copyFileToDirectory(file, outputCordovaJS)
+  }
+
+  def copySeqVirtualJSFileToCordova(jsFileList: Seq[VirtualJSFile]): Unit = {
+    println("Invoking copyToCordova on a seq of VirtualJSFile")
     jsFileList.foreach {
       x =>
         x match {
           case ax: FileVirtualFile => {
             val fjs = new File(ax.path)
             val fmap = new File(ax.path.toString + ".map")
-            println(s"Copying file ${ax.path} to $outputCordovaJS")
-            FileUtils.copyFileToDirectory(fjs, output)
+            copyToCordova(fjs)
             if (fmap.exists()) {
-              println(s"Copying file ${ax.path.toString + ".map"} to $outputCordovaJS")
-              FileUtils.copyFileToDirectory(fmap, output)
+              copyToCordova(fmap)
             }
           }
           case _ => ;

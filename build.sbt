@@ -25,6 +25,10 @@ libraryDependencies ++= Seq(
 
 ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM
 
+ScalaJSKeys.jsDependencies += "org.webjars" % "ionic" % "1.0.0-beta.5b" / "ionic.bundle.min.js"
+
+skip in ScalaJSKeys.packageJSDependencies := false
+
 ScalaJSKeys.emitSourceMaps := true
 
 ScalaJSKeys.relativeSourceMaps := true
@@ -36,23 +40,20 @@ ScalaJSKeys.relativeSourceMaps := true
 
 // Extends the original fastOptJS and fullOptJS tasks by calling a custom method from the project/Build.scala file.
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
-ScalaJSKeys.packageJS in Compile := {
-	val originalResult=(ScalaJSKeys.packageJS in Compile).value
-	copyToCordova(originalResult.allCode)
+ScalaJSKeys.packageJSDependencies in Compile := {
+	val originalResult=(ScalaJSKeys.packageJSDependencies in Compile).value
+	copyToCordova(originalResult)
 	originalResult
 }
-
 
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
-	copyToCordova(originalResult.allCode)
+	copySeqVirtualJSFileToCordova(originalResult.allCode)
 	originalResult
 }
 
-
-
 ScalaJSKeys.fullOptJS in Compile := { 
 	val originalResult=(ScalaJSKeys.fullOptJS in Compile).value
-	copyToCordova(originalResult.allCode)
+	copySeqVirtualJSFileToCordova(originalResult.allCode)
 	originalResult
 }
