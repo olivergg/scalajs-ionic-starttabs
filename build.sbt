@@ -31,7 +31,9 @@ skip in ScalaJSKeys.packageJSDependencies := false
 
 ScalaJSKeys.emitSourceMaps := true
 
+/// a symlink to the src folder may need to be added in the ionic/www folder in order to make SourceMaps work. 
 ScalaJSKeys.relativeSourceMaps := true
+
 
 //// HTML5 Cordova, web application related modifications below
 
