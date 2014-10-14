@@ -10,12 +10,12 @@ To start development :
 sbt 
 ~fastOptJS
 ```
-then, to run the app in the browser, you can use ripple-emulator
+then, to run the app in the browser, you can use ionic built-in command
 ```
 cd ionic
-ripple emulate www
+ionic serve
 ```
-(see https://www.npmjs.org/package/ripple-emulator)
+(see http://ionicframework.com/docs/guide/testing.html)
 
 TODO 1
 
