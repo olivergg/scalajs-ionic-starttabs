@@ -51,6 +51,11 @@ ScalaJSKeys.packageJSDependencies in Compile := {
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
 	copySeqVirtualJSFileToCordova(originalResult.allCode)
+	// see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
+	val files:Seq[File] = (fullClasspath in Runtime).value.files
+	val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(files)
+	/// we instantiate the Index class here
+	loader.loadClass("com.olivergg.Index").newInstance()
 	originalResult
 }
 
