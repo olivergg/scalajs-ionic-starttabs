@@ -41,7 +41,7 @@ ScalaJSKeys.relativeSourceMaps := true
 (resourceManaged in (Compile, LessKeys.less)) := baseDirectory.value / "ionic" / "www" / "css" / "compiled"
 
 
-// Extends the original packageJSDependencies to copy the .js dependencies files to the ionic folder (using a method defined in the project/Build.scala)
+// Extends the original packageJSDependencies to copy the .js dependencies files to the ionic folder (using a method defined in project/Build.scala)
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.packageJSDependencies in Compile := {
 	val originalResult=(ScalaJSKeys.packageJSDependencies in Compile).value
@@ -49,7 +49,7 @@ ScalaJSKeys.packageJSDependencies in Compile := {
 	originalResult
 }
 
-// Extends the original fastOptJS and fullOptJS tasks to copy the .js files to the ionic folder (using a method defined in the project/Build.scala)
+// Extends the original fastOptJS and fullOptJS tasks to copy the .js files to the ionic folder (using a method defined in project/Build.scala)
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
