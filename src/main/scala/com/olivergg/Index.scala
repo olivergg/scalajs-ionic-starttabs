@@ -20,6 +20,6 @@ class Index {
     )
   )
   println("this is just a test string printed out to check if this class can be instantiated from an SBT task (using introspection)")
-  println("this should be write to a file ")
+  println("this should be written to a file ")
   println(frag("someParam"))
 }
