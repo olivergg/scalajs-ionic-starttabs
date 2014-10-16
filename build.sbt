@@ -49,21 +49,27 @@ ScalaJSKeys.packageJSDependencies in Compile := {
 	originalResult
 }
 
+
+/// Define a new task to compile some (not configurable yet) scala file to HTML files (using ScalaTags).
+lazy val compileToHtmlTask = taskKey[Unit]("Compile scala file inside the html package to HTML file")
+
+compileToHtmlTask := {
+  implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
+  compileToHtml()
+}
+
 // Extends the original fastOptJS and fullOptJS tasks to copy the .js files to the ionic folder (using a method defined in project/Build.scala)
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
 	copySeqVirtualJSFileToCordova(originalResult.allCode)
-	// see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
-	val files:Seq[File] = (fullClasspath in Runtime).value.files
-	val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(files)
-	/// we instantiate the Index class here
-	loader.loadClass("com.olivergg.Index").newInstance()
+	compileToHtmlTask.value
 	originalResult
 }
 
 ScalaJSKeys.fullOptJS in Compile := { 
 	val originalResult=(ScalaJSKeys.fullOptJS in Compile).value
 	copySeqVirtualJSFileToCordova(originalResult.allCode)
+	compileToHtmlTask.value
 	originalResult
 }

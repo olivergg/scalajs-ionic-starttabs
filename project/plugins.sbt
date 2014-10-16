@@ -12,5 +12,6 @@ addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.5.0")
 
 libraryDependencies ++= Seq(
   // Add your project dependencies here,
-  "org.apache.commons" % "commons-io" % "1.3.2"
+  "org.apache.commons" % "commons-io" % "1.3.2",
+  "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.2",
 )
