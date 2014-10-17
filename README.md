@@ -27,4 +27,4 @@ TODO 1
 TODO 2
 - use sbt to wrap ionic/cordova/npm commands to only have one tool to compile, build, emulate, run, etc. (sbt-web ?)
 - ~~use webjar to include ionic framework.~~
-- find a way to generate index-dev.html and index.html (for fastOptJS and fullOptJS) automatically.
+- ~~find a way to generate index-dev.html and index.html (for fastOptJS and fullOptJS) automatically.~~
