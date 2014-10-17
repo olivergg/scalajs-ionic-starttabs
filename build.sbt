@@ -50,7 +50,7 @@ ScalaJSKeys.packageJSDependencies in Compile := {
 }
 
 
-/// Define a new task to compile some (not configurable yet) scala file to HTML files (using ScalaTags).
+/// Define a new task to compile some (not configurable yet) scala files to HTML files (using ScalaTags).
 lazy val compileToHtmlTask = taskKey[Unit]("Compile scala file inside the html package to HTML file")
 
 compileToHtmlTask := {
