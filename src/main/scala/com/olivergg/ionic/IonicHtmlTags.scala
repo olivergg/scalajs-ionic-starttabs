@@ -5,4 +5,6 @@ object IonicHtmlTags {
   val ionNavBar = "ion-nav-bar".tag
   val ionNavView = "ion-nav-view".tag
   val ionNavBackButton = "ion-nav-back-button".tag
+  val ngApp = "ng-app".attr
+  val animation = "animation".attr
 }

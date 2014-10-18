@@ -50,12 +50,14 @@ ScalaJSKeys.packageJSDependencies in Compile := {
 }
 
 
-/// Define a new task to compile some (not configurable yet) scala files to HTML files (using ScalaTags).
-lazy val compileToHtmlTask = taskKey[Unit]("Compile scala file inside the html package to HTML file")
+/// Defined a task that returns the function to compile some (not configurable yet) scala files to HTML files (using ScalaTags).
+lazy val compileToHtmlTask = taskKey[String => Unit]("Compile scala file inside the html package to HTML file")
 
 compileToHtmlTask := {
   implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
-  compileToHtml()
+  // return the partially applied function "compileToHtml" (a method defined in Build.scala with a String => Unit signature)
+  // the result of the task (accesible with .value) is then a function that can be applied.
+  compileToHtml _
 }
 
 // Extends the original fastOptJS and fullOptJS tasks to copy the .js files to the ionic folder (using a method defined in project/Build.scala)
@@ -63,13 +65,13 @@ compileToHtmlTask := {
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
 	copySeqVirtualJSFileToCordova(originalResult.allCode)
-	compileToHtmlTask.value
+	compileToHtmlTask.value("fastOpt")
 	originalResult
 }
 
 ScalaJSKeys.fullOptJS in Compile := { 
 	val originalResult=(ScalaJSKeys.fullOptJS in Compile).value
 	copySeqVirtualJSFileToCordova(originalResult.allCode)
-	compileToHtmlTask.value
+	compileToHtmlTask.value("fullOpt")
 	originalResult
 }

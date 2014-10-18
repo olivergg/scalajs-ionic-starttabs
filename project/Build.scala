@@ -12,7 +12,7 @@ object MyBuild extends Build {
   val outputCordovaJS = new File("ionic/www/js")
   val outputCordovaHTML = new File("ionic/www")
 
-  lazy val prettier = new scala.xml.PrettyPrinter(80, 4)
+  lazy val prettier = new scala.xml.PrettyPrinter(120, 4)
 
   /**
    * Copy the given file to the output cordova js folder
@@ -47,7 +47,7 @@ object MyBuild extends Build {
    * The inputFiles are the classpath files. We use an implicit parameter to avoid confusion with the .scala
    * files that are actually going to be compiled to html.
    */
-  def compileToHtml()(implicit classPathFiles: Seq[sbt.File]): Unit = {
+  def compileToHtml(someParam: String)(implicit classPathFiles: Seq[sbt.File]): Unit = {
     // see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
     val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(classPathFiles)
 
@@ -55,10 +55,15 @@ object MyBuild extends Build {
     val scalaHtmlClassName = "com.olivergg.html.Index"
     /// we instantiate the Index class here
     val index = loader.loadClass(scalaHtmlClassName).newInstance.asInstanceOf[{ def output(param: String): String }]
-    val fragString = index.output("someParam")
-    val stringToWrite = prettier.format(scala.xml.XML.loadString(fragString))
-    // requires java 7 at least.
-    val pathToWrite = Paths.get(outputCordovaHTML.getAbsolutePath() + "/index-poc.html")
+    // the raw string from scalatags
+    val fragString = index.output(someParam)
+    // pretty format the string
+    val stringToWrite = "<!DOCTYPE html>\n"+prettier.format(scala.xml.XML.loadString(fragString))
+    val outputFileName = someParam match {
+      case "fastOpt" => "index-dev.html"
+      case "fullOpt" => "index-prod.html"
+    }
+    val pathToWrite = Paths.get(outputCordovaHTML.getAbsolutePath() + "/" + outputFileName)
     Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
     println(s"compileToHtml succeeded : $scalaHtmlClassName compiled to $pathToWrite")
   }

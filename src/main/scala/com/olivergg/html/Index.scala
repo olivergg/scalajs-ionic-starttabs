@@ -2,24 +2,39 @@ package com.olivergg.html
 
 import com.olivergg.ionic.IonicHtmlTags._
 import scalatags.Text.all._
+import scalatags.Text.tags2.{ title => htitle }
 import scalatags.Text.TypedTag
 class Index {
-  //TODO : implement the complete index.html file.
   def output(param: String): String = {
+    //TODO : the javascript file name should be computed from the sbt name project.
+    val jsOptNameSuffix = param match {
+      case "fastOpt" => "-fastopt.js"
+      case "fullOpt" => "-opt.js"
+    }
     html(
       head(
         meta(charset := "utf-8"),
         meta(name := "viewport", content := "initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"),
-
-        script("some script")
+        htitle("some title"),
+        link(href := "lib/ionic/css/ionic.css", rel := "stylesheet"),
+        link(href := "css/style.css", rel := "stylesheet"),
+        // ionic/angularjs is included in the bundled jsdeps created by scala-js. 
+        //See the webjar dependencies in the build.sbt to add more javascript dependencies
+        script(src := "js/scala-js-ionic-starter-application-tabs-jsdeps.js"),
+        // cordova script (this will be a 404 during development)
+        script(src := "cordova.js"),
+        // your app's js
+        script(src := "js/scala-js-ionic-starter-application-tabs" + jsOptNameSuffix),
+        script(`type` := "text/javascript")("com.olivergg.ristorantewatcher.RistoranteWatcherApp().main();")
       ),
-      body(
-        h1(span("This is my title "), span(param)),
-        ionNavBar("test"),
-        div(
-          p("This is my first paragraph"),
-          p("This is my second paragraph")
-        )
+      body(ngApp := "starter", animation := "slide-left-right-ios7")(
+        ionNavBar(cls := "bar-stable bar-positive nav-title-slide-ios7")(ionNavBackButton(cls := "button-icon icon  ion-ios7-arrow-back")("Back")),
+        /**
+         * The views will be rendered in the <ion-nav-view> directive below
+         * Templates are in the /templates folder (but you could also
+         * have templates inline in this html file if you'd like).
+         */
+        ionNavView()
       )
     ).toString()
   }
