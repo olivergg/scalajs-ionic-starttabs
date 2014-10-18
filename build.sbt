@@ -18,7 +18,7 @@ resolvers +=
 
 libraryDependencies ++= Seq(
     "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
-    "com.scalatags" %%% "scalatags" % "0.4.0",
+    "com.scalatags" %%% "scalatags" % "0.4.2",
     "com.greencatsoft" %%% "scalajs-angular" % "0.2-SNAPSHOT",
     "com.github.benhutchison" %%% "prickle" % "1.0.2"
 )
