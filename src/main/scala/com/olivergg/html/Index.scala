@@ -3,7 +3,7 @@ package com.olivergg.html
 import com.olivergg.ionic.IonicHtmlTags._
 import scalatags.Text.all._
 import scalatags.Text.tags2.{ title => htitle }
-import scalatags.Text.TypedTag
+
 class Index {
   def output(param: String): String = {
     //TODO : the javascript file name should be computed from the sbt name project.
@@ -11,6 +11,7 @@ class Index {
       case "fastOpt" => "-fastopt.js"
       case "fullOpt" => "-opt.js"
     }
+    "<!DOCTYPE html>\n"+
     html(
       head(
         meta(charset := "utf-8"),
