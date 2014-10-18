@@ -9,17 +9,23 @@ import java.nio.charset.StandardCharsets
  */
 object MyBuild extends Build {
 
-  val outputCordovaJS = new File("ionic/www/js")
-  val outputCordovaHTML = new File("ionic/www")
-
+  val outputCompiledJS = new File("ionic/www/js")
+  val outputCompiledHTML = new File("ionic/www")
   lazy val prettier = new scala.xml.PrettyPrinter(120, 4)
+
+  ///////////////// TODO NOT YET IMPLEMENTED
+  val htmlScalaSourcePackage = "com.olivergg.html"
+  val map = Map("Index" -> { x: String => s"index-$x.html" },
+    "template.Test" -> { _: String => "templates/test.html" })
+  private val finalMap = map.map { case (k, v) => (htmlScalaSourcePackage + "." + k, v) }
+  /////////////////////////////////////////
 
   /**
    * Copy the given file to the output cordova js folder
    */
   def copyToCordova(file: java.io.File): Unit = {
-    println(s"Copying file ${file.getAbsolutePath()} to $outputCordovaJS ")
-    FileUtils.copyFileToDirectory(file, outputCordovaJS)
+    println(s"Copying file ${file.getAbsolutePath()} to $outputCompiledJS ")
+    FileUtils.copyFileToDirectory(file, outputCompiledJS)
   }
 
   /**
@@ -58,12 +64,12 @@ object MyBuild extends Build {
     // the raw string from scalatags
     val fragString = index.output(someParam)
     // pretty format the string
-    val stringToWrite = "<!DOCTYPE html>\n"+prettier.format(scala.xml.XML.loadString(fragString))
+    val stringToWrite = prettier.format(scala.xml.XML.loadString(fragString))
     val outputFileName = someParam match {
       case "fastOpt" => "index-dev.html"
       case "fullOpt" => "index-prod.html"
     }
-    val pathToWrite = Paths.get(outputCordovaHTML.getAbsolutePath() + "/" + outputFileName)
+    val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + outputFileName)
     Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
     println(s"compileToHtml succeeded : $scalaHtmlClassName compiled to $pathToWrite")
   }
