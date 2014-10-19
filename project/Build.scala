@@ -1,9 +1,14 @@
-import sbt._
-import Keys._
-import org.apache.commons.io.FileUtils
-import scala.scalajs.tools.io._
-import java.nio.file.{ Paths, Files }
 import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
+
+import scala.scalajs.tools.io.FileVirtualFile
+import scala.scalajs.tools.io.VirtualJSFile
+
+import org.apache.commons.io.FileUtils
+
+import sbt.Build
+import sbt.File
 /**
  *  See https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse to develop this file in eclipse.
  */
@@ -64,7 +69,8 @@ object MyBuild extends Build {
     // the raw string from scalatags
     val fragString = index.output(someParam)
     // pretty format the string
-    val stringToWrite = prettier.format(scala.xml.XML.loadString(fragString))
+    // TODO : the DOCTYPE should be optional.
+    val stringToWrite =  "<!DOCTYPE html>"+ prettier.format(scala.xml.XML.loadString(fragString))
     val outputFileName = someParam match {
       case "fastOpt" => "index-dev.html"
       case "fullOpt" => "index-prod.html"

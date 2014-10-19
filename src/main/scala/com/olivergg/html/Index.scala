@@ -6,12 +6,12 @@ import scalatags.Text.tags2.{ title => htitle }
 
 class Index {
   def output(param: String): String = {
-    //TODO : the javascript file name should be computed from the sbt name project.
-    val jsOptNameSuffix = param match {
-      case "fastOpt" => "-fastopt.js"
-      case "fullOpt" => "-opt.js"
+    //TODO : the javascript file base name should be computed from the sbt name project.
+    val jsFileBaseName = "js/scala-js-ionic-starter-application-tabs"
+    val optModeSuffix = param match {
+      case "fastOpt" => "fastopt.js"
+      case "fullOpt" => "opt.js"
     }
-    "<!DOCTYPE html>\n"+
     html(
       head(
         meta(charset := "utf-8"),
@@ -21,11 +21,11 @@ class Index {
         link(href := "css/style.css", rel := "stylesheet"),
         // ionic/angularjs is included in the bundled jsdeps created by scala-js. 
         //See the webjar dependencies in the build.sbt to add more javascript dependencies
-        script(src := "js/scala-js-ionic-starter-application-tabs-jsdeps.js"),
+        script(src := s"$jsFileBaseName-jsdeps.js")(" "),
         // cordova script (this will be a 404 during development)
-        script(src := "cordova.js"),
+        script(src := "cordova.js")(" "),
         // your app's js
-        script(src := "js/scala-js-ionic-starter-application-tabs" + jsOptNameSuffix),
+        script(src := s"$jsFileBaseName-$optModeSuffix")(" "),
         script(`type` := "text/javascript")("com.olivergg.ristorantewatcher.RistoranteWatcherApp().main();")
       ),
       body(ngApp := "starter", animation := "slide-left-right-ios7")(
