@@ -1,34 +1,43 @@
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Paths
-
 import scala.scalajs.tools.io.FileVirtualFile
 import scala.scalajs.tools.io.VirtualJSFile
-
 import org.apache.commons.io.FileUtils
-
+import scala.language.reflectiveCalls
 import sbt.Build
 import sbt.File
+import java.io.File
 /**
  *  See https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse to develop this file in eclipse.
  */
 object MyBuild extends Build {
 
-  val outputCompiledJS = new File("ionic/www/js")
-  val outputCompiledHTML = new File("ionic/www")
-  lazy val prettier = new scala.xml.PrettyPrinter(120, 4)
+  lazy val outputCompiledJS = new File("ionic/www/js")
+  lazy val outputCompiledHTML = new File("ionic/www")
 
-  ///////////////// TODO NOT YET IMPLEMENTED
-  val htmlScalaSourcePackage = "com.olivergg.html"
-  val map = Map("Index" -> { x: String => s"index-$x.html" },
-    "template.Test" -> { _: String => "templates/test.html" })
-  private val finalMap = map.map { case (k, v) => (htmlScalaSourcePackage + "." + k, v) }
+  lazy val htmlScalaSourcePackage = "com.olivergg.html"
+
+  // a seq of triplet ( class name , function to get the html file name, boolean with doctype)
+  // class name : the name of the class relative to the package defined in htmlScalaSourcePackage
+  // function : a function (String => String) that takes the optMode in parameter and returns the file path (relative to the output html folder).
+  // boolean : indicate whether a DOCTYPE should be generated.
+  lazy val classNameToHtmlSeq: Seq[(String, (OptMode => String), Boolean)] = Seq(
+    ("Index", { optMode: OptMode =>
+      optMode match {
+        case FastOpt => "index-dev.html"
+        case FullOpt => "index-prod.html"
+      }
+    }, true),
+    ("template.Test", { _: OptMode => "templates/test.html" }, false))
+
   /////////////////////////////////////////
+  private val prettier = new scala.xml.PrettyPrinter(120, 4)
 
   /**
    * Copy the given file to the output cordova js folder
    */
-  def copyToCordova(file: java.io.File): Unit = {
+  def copyToOutputJS(file: java.io.File): Unit = {
     println(s"Copying file ${file.getAbsolutePath()} to $outputCompiledJS ")
     FileUtils.copyFileToDirectory(file, outputCompiledJS)
   }
@@ -36,7 +45,7 @@ object MyBuild extends Build {
   /**
    * Copy each file of the VirtualJSFile seq along with its associated Source Maps file if it exists.
    */
-  def copySeqVirtualJSFileToCordova(jsFileList: Seq[VirtualJSFile]): Unit = {
+  def copySeqToOutputJS(jsFileList: Seq[VirtualJSFile]): Unit = {
     println("Invoking copyToCordova on a seq of VirtualJSFile")
     jsFileList.foreach {
       x =>
@@ -44,9 +53,9 @@ object MyBuild extends Build {
           case ax: FileVirtualFile => {
             val fjs = new File(ax.path)
             val fmap = new File(ax.path.toString + ".map")
-            copyToCordova(fjs)
+            copyToOutputJS(fjs)
             if (fmap.exists()) {
-              copyToCordova(fmap)
+              copyToOutputJS(fmap)
             }
           }
           case _ => ;
@@ -56,28 +65,33 @@ object MyBuild extends Build {
 
   /**
    * The inputFiles are the classpath files. We use an implicit parameter to avoid confusion with the .scala
-   * files that are actually going to be compiled to html.
+   * files that are actually going to be compiled to html (those are set with the classNameToHtmlMap)).
    */
-  def compileToHtml(someParam: String)(implicit classPathFiles: Seq[sbt.File]): Unit = {
+  def compileToHtml(optMode: OptMode, moduleName: String)(implicit classPathFiles: Seq[sbt.File]): Unit = {
     // see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
     val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(classPathFiles)
 
-    ///TODO : improve the following code, allow multiple html files to be compiled. store the settings (params, file name, etc..) elsewhere.
-    val scalaHtmlClassName = "com.olivergg.html.Index"
-    /// we instantiate the Index class here
-    val index = loader.loadClass(scalaHtmlClassName).newInstance.asInstanceOf[{ def output(param: String): String }]
-    // the raw string from scalatags
-    val fragString = index.output(someParam)
-    // pretty format the string
-    // TODO : the DOCTYPE should be optional.
-    val stringToWrite =  "<!DOCTYPE html>"+ prettier.format(scala.xml.XML.loadString(fragString))
-    val outputFileName = someParam match {
-      case "fastOpt" => "index-dev.html"
-      case "fullOpt" => "index-prod.html"
+    val actualSeqToIterate = classNameToHtmlSeq.map {
+      case (className, funcToGetFilePath, withDocType) => {
+        (htmlScalaSourcePackage + "." + className, new File(outputCompiledHTML.getAbsolutePath() + "/" + funcToGetFilePath(optMode)), withDocType)
+      }
     }
-    val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + outputFileName)
-    Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
-    println(s"compileToHtml succeeded : $scalaHtmlClassName compiled to $pathToWrite")
+    for ((className, filePath, withDocType) <- actualSeqToIterate) {
+      /// we instantiate the Index class here
+      val index = loader.loadClass(className).newInstance.asInstanceOf[{ def output(optMode: String, moduleName: String): String }]
+      // the raw string from scalatags
+      val fragString = index.output(optMode.name, moduleName)
+      // pretty format the string
+      val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
+      val pathToWrite = Paths.get(filePath.getAbsolutePath())
+      Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
+      println(s"compileToHtml succeeded : $className compiled to $pathToWrite")
+    }
+
   }
+
+  abstract sealed class OptMode(val name: String)
+  object FastOpt extends OptMode("fastOpt")
+  object FullOpt extends OptMode("fullOpt")
 
 }

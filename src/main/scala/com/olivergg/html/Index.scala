@@ -5,10 +5,10 @@ import scalatags.Text.all._
 import scalatags.Text.tags2.{ title => htitle }
 
 class Index {
-  def output(param: String): String = {
+  def output(optMode: String, moduleName:String): String = {
     //TODO : the javascript file base name should be computed from the sbt name project.
-    val jsFileBaseName = "js/scala-js-ionic-starter-application-tabs"
-    val optModeSuffix = param match {
+    val jsFileBaseName = s"js/$moduleName"
+    val optModeSuffix = optMode match {
       case "fastOpt" => "fastopt.js"
       case "fullOpt" => "opt.js"
     }
@@ -21,11 +21,11 @@ class Index {
         link(href := "css/style.css", rel := "stylesheet"),
         // ionic/angularjs is included in the bundled jsdeps created by scala-js. 
         //See the webjar dependencies in the build.sbt to add more javascript dependencies
-        script(src := s"$jsFileBaseName-jsdeps.js")(" "),
+        script(src := s"js/$moduleName-jsdeps.js")(" "),
         // cordova script (this will be a 404 during development)
         script(src := "cordova.js")(" "),
         // your app's js
-        script(src := s"$jsFileBaseName-$optModeSuffix")(" "),
+        script(src := s"js/$moduleName-$optModeSuffix")(" "),
         script(`type` := "text/javascript")("com.olivergg.ristorantewatcher.RistoranteWatcherApp().main();")
       ),
       body(ngApp := "starter", animation := "slide-left-right-ios7")(

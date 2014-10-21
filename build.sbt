@@ -45,17 +45,18 @@ ScalaJSKeys.relativeSourceMaps := true
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.packageJSDependencies in Compile := {
 	val originalResult=(ScalaJSKeys.packageJSDependencies in Compile).value
-	copyToCordova(originalResult)
+	copyToOutputJS(originalResult)
 	originalResult
 }
 
 
-/// Defined a task that returns the function to compile some (not configurable yet) scala files to HTML files (using ScalaTags).
-lazy val compileToHtmlTask = taskKey[String => Unit]("Compile scala file inside the html package to HTML file")
+/// Defined a task that returns the function to compile some scala files to HTML files (using ScalaTags).
+/// the OptMode is defined in Build.scala
+lazy val compileToHtmlTask = taskKey[(OptMode,String) => Unit]("Compile scala file inside the html package to HTML file")
 
 compileToHtmlTask := {
   implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
-  // return the partially applied function "compileToHtml" (a method defined in Build.scala with a String => Unit signature)
+  // return the partially applied function "compileToHtml" (a method defined in Build.scala with a (OptMode,String) => Unit signature)
   // the result of the task (accesible with .value) is then a function that can be applied.
   compileToHtml _
 }
@@ -64,14 +65,14 @@ compileToHtmlTask := {
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
-	copySeqVirtualJSFileToCordova(originalResult.allCode)
-	compileToHtmlTask.value("fastOpt")
+	copySeqToOutputJS(originalResult.allCode)
+	compileToHtmlTask.value(FastOpt, moduleName.value)
 	originalResult
 }
 
 ScalaJSKeys.fullOptJS in Compile := { 
 	val originalResult=(ScalaJSKeys.fullOptJS in Compile).value
-	copySeqVirtualJSFileToCordova(originalResult.allCode)
-	compileToHtmlTask.value("fullOpt")
+	copySeqToOutputJS(originalResult.allCode)
+	compileToHtmlTask.value(FullOpt, moduleName.value)
 	originalResult
 }
