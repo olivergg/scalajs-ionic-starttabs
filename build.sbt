@@ -52,7 +52,7 @@ ScalaJSKeys.packageJSDependencies in Compile := {
 
 /// Defined a task that returns the function to compile some scala files to HTML files (using ScalaTags).
 /// the OptMode is defined in Build.scala
-lazy val compileToHtmlTask = taskKey[(OptMode,String) => Unit]("Compile scala file inside the html package to HTML file")
+lazy val compileToHtmlTask = taskKey[(OptMode,String) => Unit]("Compile scala files inside the html package to HTML files in the output HTML directory")
 
 compileToHtmlTask := {
   implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
