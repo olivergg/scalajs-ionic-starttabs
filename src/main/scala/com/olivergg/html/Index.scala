@@ -29,7 +29,9 @@ class Index {
         script(`type` := "text/javascript")("com.olivergg.ristorantewatcher.RistoranteWatcherApp().main();")
       ),
       body(ngApp := "starter", animation := "slide-left-right-ios7")(
-        ionNavBar(cls := "bar-stable bar-positive nav-title-slide-ios7")(ionNavBackButton(cls := "button-icon icon  ion-ios7-arrow-back")("Back")),
+        ionNavBar(cls := "bar-stable bar-positive nav-title-slide-ios7")(
+          ionNavBackButton(cls := "button-icon icon  ion-ios7-arrow-back")("Back")
+        ),
         /**
          * The views will be rendered in the <ion-nav-view> directive below
          * Templates are in the /templates folder (but you could also
