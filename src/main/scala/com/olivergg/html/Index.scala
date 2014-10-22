@@ -26,7 +26,8 @@ class Index {
         script(src := "cordova.js")(" "),
         // your app's js
         script(src := s"js/$moduleName-$optModeSuffix")(" "),
-        script(`type` := "text/javascript")("com.olivergg.ristorantewatcher.RistoranteWatcherApp().main();")
+        script(src := s"js/$moduleName-launcher.js")(" ")
+
       ),
       body(ngApp := "starter", animation := "slide-left-right-ios7")(
         ionNavBar(cls := "bar-stable bar-positive nav-title-slide-ios7")(

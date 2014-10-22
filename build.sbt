@@ -35,6 +35,12 @@ ScalaJSKeys.emitSourceMaps := true
 ScalaJSKeys.relativeSourceMaps := true
 
 
+/// See http://www.scala-js.org/doc/tutorial.html : Automatically Creating a Launcher
+ScalaJSKeys.persistLauncher in Compile := true
+
+ScalaJSKeys.persistLauncher in Test := false
+
+
 //// HTML5 Cordova, web application related modifications below
 
 // Target directory for the CSS compiled with less.
@@ -46,6 +52,14 @@ ScalaJSKeys.relativeSourceMaps := true
 ScalaJSKeys.packageJSDependencies in Compile := {
 	val originalResult=(ScalaJSKeys.packageJSDependencies in Compile).value
 	copyToOutputJS(originalResult)
+	originalResult
+}
+
+// Extends the original packageScalaJSLauncher to copy the .js launcher
+// (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
+ScalaJSKeys.packageScalaJSLauncher in Compile := {
+	val originalResult=(ScalaJSKeys.packageScalaJSLauncher in Compile).value
+	copyToOutputJS(originalResult.data)
 	originalResult
 }
 
