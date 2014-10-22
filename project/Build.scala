@@ -71,19 +71,15 @@ object MyBuild extends Build {
     // see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
     val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(classPathFiles)
 
-    val actualSeqToIterate = classNameToHtmlSeq.map {
-      case (className, funcToGetFilePath, withDocType) => {
-        (htmlScalaSourcePackage + "." + className, new File(outputCompiledHTML.getAbsolutePath() + "/" + funcToGetFilePath(optMode)), withDocType)
-      }
-    }
-    for ((className, filePath, withDocType) <- actualSeqToIterate) {
+    for ((className, funcToGetFilePath, withDocType) <- classNameToHtmlSeq) {
+      val fqClassName = htmlScalaSourcePackage + "." + className
       /// we instantiate the Index class here
-      val index = loader.loadClass(className).newInstance.asInstanceOf[{ def output(optMode: String, moduleName: String): String }]
+      val index = loader.loadClass(fqClassName).newInstance.asInstanceOf[{ def output(optMode: String, moduleName: String): String }]
       // the raw string from scalatags
       val fragString = index.output(optMode.name, moduleName)
       // pretty format the string
       val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
-      val pathToWrite = Paths.get(filePath.getAbsolutePath())
+      val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + funcToGetFilePath(optMode))
       Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
       println(s"compileToHtml succeeded : $className compiled to $pathToWrite")
     }
