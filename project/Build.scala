@@ -73,10 +73,10 @@ object MyBuild extends Build {
 
     for ((className, funcToGetFilePath, withDocType) <- classNameToHtmlSeq) {
       val fqClassName = htmlScalaSourcePackage + "." + className
-      /// we instantiate the Index class here
-      val index = loader.loadClass(fqClassName).newInstance.asInstanceOf[{ def output(optMode: String, moduleName: String): String }]
+      /// we instantiate the class (fqClassName) here
+      val classInstance = loader.loadClass(fqClassName).newInstance.asInstanceOf[{ def output(optMode: String, moduleName: String): String }]
       // the raw string from scalatags
-      val fragString = index.output(optMode.name, moduleName)
+      val fragString = classInstance.output(optMode.name, moduleName)
       // pretty format the string
       val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
       val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + funcToGetFilePath(optMode))
