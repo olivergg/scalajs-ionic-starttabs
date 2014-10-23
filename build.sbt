@@ -16,6 +16,8 @@ EclipseKeys.withSource := true
 resolvers += 
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
+resolvers += Resolver.mavenLocal
+
 libraryDependencies ++= Seq(
     "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
     "com.scalatags" %%% "scalatags" % "0.4.2",
@@ -25,7 +27,7 @@ libraryDependencies ++= Seq(
 
 ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM
 
-ScalaJSKeys.jsDependencies += "org.webjars" % "ionic" % "1.0.0-beta.5b" / "ionic.bundle.min.js"
+ScalaJSKeys.jsDependencies += "org.webjars" % "ionic" % "1.0.0-beta.13" / "ionic.bundle.min.js"
 
 skip in ScalaJSKeys.packageJSDependencies := false
 
