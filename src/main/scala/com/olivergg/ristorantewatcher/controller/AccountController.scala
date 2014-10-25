@@ -31,7 +31,7 @@ object AccountController extends Controller {
     val gg: Future[Try[IPAddress]] = ff.map(JSON.stringify(_))
       								                 .map(Unpickle[IPAddress].fromString(_))
     gg.onSuccess {
-      case Success(ip)  => println(s"response from server IP = $ip"); scope.ip = IPAddress("test")
+      case Success(ip)  => println(s"response from server IP = $ip"); scope.ip = ip
       case Failure(err) => println(s"something went wrong = $err"); scope.ip = IPAddress("ERROR")
     }
 
