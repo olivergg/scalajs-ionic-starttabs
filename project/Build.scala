@@ -46,7 +46,7 @@ object MyBuild extends Build {
    * Copy each file of the VirtualJSFile seq along with its associated Source Maps file if it exists.
    */
   def copySeqToOutputJS(jsFileList: Seq[VirtualJSFile]): Unit = {
-    println("Invoking copyToCordova on a seq of VirtualJSFile")
+    println("Invoking copySeqToOutputJS on a seq of VirtualJSFile")
     jsFileList.foreach {
       x =>
         x match {

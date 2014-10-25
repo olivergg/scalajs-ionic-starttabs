@@ -17,7 +17,7 @@ class Index {
         meta(charset := "utf-8"),
         meta(name := "viewport", content := "initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"),
         htitle("some title"),
-        link(href := "lib/ionic/css/ionic.css", rel := "stylesheet"),
+        link(href := "lib/ionic/css/ionic.min.css", rel := "stylesheet"),
         link(href := "css/style.css", rel := "stylesheet"),
         // ionic/angularjs is included in the bundled jsdeps created by scala-js. 
         //See the webjar dependencies in the build.sbt to add more javascript dependencies

@@ -10,12 +10,13 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.2"
 
-// Download and link sources for library dependencies
+// Download and link sources for library dependencies (when using sbt eclipse)
 EclipseKeys.withSource := true
 
 resolvers += 
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
+/// add local maven .m2 repo to resolve dependencies.
 resolvers += Resolver.mavenLocal
 
 libraryDependencies ++= Seq(
@@ -25,18 +26,23 @@ libraryDependencies ++= Seq(
     "com.github.benhutchison" %%% "prickle" % "1.0.2"
 )
 
+
 ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM
 
+/// Webjars dependencies
 ScalaJSKeys.jsDependencies += "org.webjars" % "ionic" % "1.0.0-beta.13" / "ionic.bundle.min.js"
 
 skip in ScalaJSKeys.packageJSDependencies := false
 
+
+////// SourceMaps configuration ////////////////////////
 ScalaJSKeys.emitSourceMaps := true
 
 /// a symlink to the src folder may need to be added in the ionic/www folder in order to make SourceMaps work. 
 ScalaJSKeys.relativeSourceMaps := true
 
 
+///// launcher js configuration ////////////////////////
 /// See http://www.scala-js.org/doc/tutorial.html : Automatically Creating a Launcher
 ScalaJSKeys.persistLauncher in Compile := true
 
@@ -77,7 +83,7 @@ compileToHtmlTask := {
   compileToHtml _
 }
 
-// Extends the original fastOptJS and fullOptJS tasks to copy the .js files to the ionic folder (using a method defined in project/Build.scala)
+// Extends the original fastOptJS and fullOptJS tasks to copy the .js files to the output js folder (using a method defined in project/Build.scala)
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
@@ -92,3 +98,4 @@ ScalaJSKeys.fullOptJS in Compile := {
 	compileToHtmlTask.value(FullOpt, moduleName.value)
 	originalResult
 }
+
