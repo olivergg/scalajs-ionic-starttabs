@@ -1,10 +1,7 @@
 package com.olivergg.ionic
 
-import com.greencatsoft.angularjs.Injectable
+import com.greencatsoft.angularjs.injectable
 
-trait UrlRouterProvider extends Injectable with IUrlRouterProvider
+@injectable("$urlRouterProvider")
+trait UrlRouterProvider extends  IUrlRouterProvider
 
-object UrlRouterProvider {
-  
-  val Name = "$urlRouterProvider"
-}

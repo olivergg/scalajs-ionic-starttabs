@@ -4,8 +4,8 @@ import scala.scalajs.js
 import scala.scalajs.js.JSConverters.JSRichGenMap
 import scala.scalajs.js.RegExp
 import scala.scalajs.js.annotation.JSBracketAccess
+import com.greencatsoft.angularjs.core.Promise
 
-import com.greencatsoft.angularjs.q.Promise
 
 trait IState extends js.Object {
   var name: String = ???

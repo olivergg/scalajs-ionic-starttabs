@@ -1,14 +1,21 @@
 package com.olivergg.ristorantewatcher
 
 import com.olivergg.ionic.State
-import com.olivergg.ionic.StateProviderAware
-import com.olivergg.ionic.UrlRouterProviderAware
 import com.olivergg.ionic.View
+import com.greencatsoft.angularjs.Config
+import com.olivergg.ionic.StateProvider
+import com.olivergg.ionic.UrlRouterProvider
+import com.greencatsoft.angularjs.inject
 /**
  * This object should be passed to the config method of an angular module in order to setup the states. 
  */
-object StateConfig extends StateProviderAware with UrlRouterProviderAware {
+object StateConfig extends Config {
 
+  @inject
+  var stateProvider:StateProvider = _
+  @inject
+  var urlRouterProvider:UrlRouterProvider = _ 
+  
   override def initialize() {
     println("initialize StateConfig")
     // Ionic uses AngularUI Router which uses the concept of states

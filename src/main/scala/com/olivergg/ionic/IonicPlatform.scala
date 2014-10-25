@@ -1,14 +1,10 @@
 package com.olivergg.ionic
 
 import scala.scalajs.js
+import com.greencatsoft.angularjs.injectable
 
-import com.greencatsoft.angularjs.Injectable
-trait IonicPlatform extends Injectable {
+@injectable("$ionicPlatform")
+trait IonicPlatform extends js.Object {
   //TODO : the ready should return a Promise.
   def ready[T](a: js.Function0[T]): Unit = ???
-}
-
-object IonicPlatform {
-
-  val Name = "$ionicPlatform"
 }

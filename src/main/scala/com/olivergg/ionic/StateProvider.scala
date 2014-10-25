@@ -1,10 +1,7 @@
 package com.olivergg.ionic
 
-import com.greencatsoft.angularjs.Injectable
+import com.greencatsoft.angularjs.injectable
 
-trait StateProvider extends Injectable with IStateProvider
+@injectable("$stateProvider")
+trait StateProvider extends IStateProvider
 
-object StateProvider {
-
-  val Name = "$stateProvider"
-}

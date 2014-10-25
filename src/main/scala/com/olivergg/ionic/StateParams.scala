@@ -1,10 +1,6 @@
 package com.olivergg.ionic
 
-import com.greencatsoft.angularjs.Injectable
+import com.greencatsoft.angularjs.injectable
 
-trait StateParams extends Injectable with IStateParams
-
-object StateParams {
-
-  val Name = "$stateParams"
-}
+@injectable("$stateParams")
+trait StateParams extends IStateParams
