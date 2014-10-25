@@ -19,7 +19,7 @@ ionic serve
 
 TODO 1
 
-- ~~Use yet to be created scala-js bindings for the Cordova API ~~ NOT SURE, see the ngCordova TODO below
+- ~~Use yet to be created scala-js bindings for the Cordova API~~ NOT SURE, see the ngCordova TODO below
 - Improve bindings for angular-ui-router (that should be merged with scalajs-angular)
 - Improve bindings for ionic specific services (that should be put in a separate project)
 - Use ngCordova to communicate with the cordova API
