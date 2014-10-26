@@ -4,9 +4,9 @@ import com.olivergg.ionic.IonicHtmlTags._
 import scalatags.Text.all._
 import scalatags.Text.tags2.{ title => htitle }
 
-class Index {
-  def output(optMode: String, moduleName:String): String = {
-    //TODO : the javascript file base name should be computed from the sbt name project.
+class Index extends HtmlCompilable {
+
+  override def output(optMode: String, moduleName: String): String = {
     val jsFileBaseName = s"js/$moduleName"
     val optModeSuffix = optMode match {
       case "fastOpt" => "fastopt.js"
@@ -42,4 +42,11 @@ class Index {
       )
     ).toString()
   }
+
+  override def filePath(optMode: String): String = optMode match {
+    case "fastOpt" => "index-dev.html"
+    case "fullOpt" => "index-prod.html"
+  }
+
+  override def withDocType: Boolean = true
 }
