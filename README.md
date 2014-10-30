@@ -10,6 +10,12 @@ To start development :
 sbt 
 ~fastOptJS
 ```
+
+To compile scala files in the html package to HTML files :
+```
+compileAllToHtmlTask
+```
+
 then, to run the app in the browser, you can use ionic built-in command
 ```
 cd ionic

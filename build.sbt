@@ -74,28 +74,38 @@ ScalaJSKeys.packageScalaJSLauncher in Compile := {
 
 /// Defined a task that returns the function to compile some scala files to HTML files (using ScalaTags).
 /// the OptMode is defined in Build.scala
-lazy val compileToHtmlTask = taskKey[(OptMode,String) => Unit]("Compile scala files inside the html package to HTML files in the output HTML directory")
+lazy val getCompileToHtmlPartialFunctionTask = taskKey[(String,OptMode,String) => Unit]("Get the partial function to compile scala files to HTML")
 
-compileToHtmlTask := {
+getCompileToHtmlPartialFunctionTask := {
   implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
-  // return the partially applied function "compileToHtml" (a method defined in Build.scala with a (OptMode,String) => Unit signature)
+	val classpath: Seq[Attributed[File]] = (fullClasspath in Runtime).value
+  // return the partially applied function "compileToHtml" (a method defined in Build.scala with a (String,OptMode,String) => Unit signature)
   // the result of the task (accesible with .value) is then a function that can be applied.
   compileToHtml _
 }
+
+
+/// Defined a task that compiles all the files contained in htmlScalaSourceDir to HTML files in the outputCompiledHTML folder.
+lazy val compileAllToHtmlTask = taskKey[Unit]("Compile all scala files contained in htmlScalaSourceDir (defined in the Build.scala) to HTML")
+
+compileAllToHtmlTask := {
+	getCompileToHtmlPartialFunctionTask.value("",NotRelevant, moduleName.value)
+}
+
 
 // Extends the original fastOptJS and fullOptJS tasks to copy the .js files to the output js folder (using a method defined in project/Build.scala)
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
 	copySeqToOutputJS(originalResult.allCode)
-	compileToHtmlTask.value(FastOpt, moduleName.value)
+	getCompileToHtmlPartialFunctionTask.value("com.olivergg.html.Index",FastOpt, moduleName.value)
 	originalResult
 }
 
 ScalaJSKeys.fullOptJS in Compile := { 
 	val originalResult=(ScalaJSKeys.fullOptJS in Compile).value
 	copySeqToOutputJS(originalResult.allCode)
-	compileToHtmlTask.value(FullOpt, moduleName.value)
+	getCompileToHtmlPartialFunctionTask.value("com.olivergg.html.Index",FullOpt, moduleName.value)
 	originalResult
 }
 

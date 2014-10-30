@@ -69,9 +69,10 @@ object MyBuild extends Build {
 
   /**
    * The inputFiles are the classpath files. We use an implicit parameter to avoid confusion with the .scala
-   * files that are actually going to be compiled to html (those are set with the classNameToHtmlMap)).
+   * files that are actually going to be compiled to html (those are determined using reflection)).
+   * TODO : find a way to leverage incremental compilation to only compile files that have actually been modified (could be tricky since this task depends on the fullClassPath in Runtime to retrieve the classes).
    */
-  def compileToHtml(optMode: OptMode, moduleName: String)(implicit classPathFiles: Seq[sbt.File]): Unit = {
+  def compileToHtml(fqcn: String = "", optMode: OptMode, moduleName: String)(implicit classPathFiles: Seq[sbt.File]): Unit = {
     // see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
     val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(classPathFiles)
     val withoutJarClassPathFiles = classPathFiles.filterNot(f => f.getAbsolutePath().endsWith(".jar"))
@@ -90,7 +91,11 @@ object MyBuild extends Build {
       case MatchFQCN(innerPath) => innerPath.replaceAll("""/""", """.""")
       case _ => println("something went wrong with the matching of the path " + path); path.path
     }
-    val iteratorMappedToFQCN = filteredIterator.map(convertToFQCN(_))
+    /**
+     * Local method to create a filtering method to keep only the FQCN that matches the input fqcn parameter if it is not empty.
+     */
+    def matchInputFqcn(in: String): Boolean = fqcn.isEmpty() || in == fqcn
+    val iteratorMappedToFQCN = filteredIterator.map(convertToFQCN(_)).filter(matchInputFqcn(_))
 
     for (f <- iteratorMappedToFQCN) {
       val classz = loader.loadClass(f)
@@ -105,15 +110,19 @@ object MyBuild extends Build {
         val tryClassInstance = Try(classz.newInstance().asInstanceOf[HtmlCompilableStructType])
         tryClassInstance match {
           case Success(classInstance) => {
-            val fileName = classInstance.filePath(optMode.name)
-            val fragString = classInstance.output(optMode.name, moduleName)
+            val fileNameTry = Try(classInstance.filePath(optMode.name))
+            val fragStringTry = Try(classInstance.output(optMode.name, moduleName))
             val withDocType = classInstance.withDocType
-
-            // append a DOCTYPE (if needed) and pretty format the string to write
-            val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
-            val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + fileName)
-            Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
-            println(s"compileToHtml succeeded : $f compiled to $pathToWrite")
+            (fileNameTry, fragStringTry) match {
+              case (Success(fileName), Success(fragString)) => {
+                // append a DOCTYPE (if needed) and pretty format the string to write
+                val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
+                val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + fileName)
+                Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
+                println(s"compileToHtml succeeded : $f compiled to $pathToWrite")
+              }
+              case _ => println(s"Ignoring $f")// ignore file where fileName and fragString failed.
+            }
           }
           case Failure(err) => println(s"Failed compiling $f with error $err but continue anyway to treat other files !")
         }
@@ -124,5 +133,6 @@ object MyBuild extends Build {
   abstract sealed class OptMode(val name: String)
   object FastOpt extends OptMode("fastOpt")
   object FullOpt extends OptMode("fullOpt")
+  object NotRelevant extends OptMode("DONTUSE")
 
 }
