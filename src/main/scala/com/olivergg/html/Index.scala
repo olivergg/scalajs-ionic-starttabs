@@ -22,6 +22,7 @@ class Index extends HtmlCompilable {
         // ionic/angularjs is included in the bundled jsdeps created by scala-js. 
         //See the webjar dependencies in the build.sbt to add more javascript dependencies
         script(src := s"js/$moduleName-jsdeps.js")(" "),
+        script(src := "ng-cordova.min.js")(" "),
         // cordova script (this will be a 404 during development)
         script(src := "cordova.js")(" "),
         // your app's js
@@ -29,8 +30,8 @@ class Index extends HtmlCompilable {
         script(src := s"js/$moduleName-launcher.js")(" ")
 
       ),
-      body(ngApp := "starter", animation := "slide-left-right-ios7")(
-        ionNavBar(cls := "bar-stable bar-positive nav-title-slide-ios7")(
+      body(ngApp := "starter", animation := "no-animation")(
+        ionNavBar(cls := "bar-stable bar-positive",  animation := "no-animation" /*nav-title-slide-ios7"*/)(
           ionNavBackButton(cls := "button-icon icon  ion-ios7-arrow-back")("Back")
         ),
         /**
@@ -38,7 +39,7 @@ class Index extends HtmlCompilable {
          * Templates are in the /templates folder (but you could also
          * have templates inline in this html file if you'd like).
          */
-        ionNavView()
+        ionNavView(animation := "no-animation")
       )
     ).toString()
   }

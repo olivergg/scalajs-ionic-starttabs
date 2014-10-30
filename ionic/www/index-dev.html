@@ -7,14 +7,15 @@
         <link rel="stylesheet" href="lib/ionic/css/ionic.min.css"/>
         <link rel="stylesheet" href="css/style.css"/>
         <script src="js/scala-js-ionic-starter-application-tabs-jsdeps.js"> </script>
+        <script src="ng-cordova.min.js"> </script>
         <script src="cordova.js"> </script>
         <script src="js/scala-js-ionic-starter-application-tabs-fastopt.js"> </script>
         <script src="js/scala-js-ionic-starter-application-tabs-launcher.js"> </script>
     </head>
-    <body animation="slide-left-right-ios7" ng-app="starter">
-        <ion-nav-bar class="bar-stable bar-positive nav-title-slide-ios7">
+    <body animation="no-animation" ng-app="starter">
+        <ion-nav-bar animation="no-animation" class="bar-stable bar-positive">
             <ion-nav-back-button class="button-icon icon ion-ios7-arrow-back">Back</ion-nav-back-button>
         </ion-nav-bar>
-        <ion-nav-view/>
+        <ion-nav-view animation="no-animation"/>
     </body>
 </html>

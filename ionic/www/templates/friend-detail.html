@@ -1,12 +1,6 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from a scala service FriendsService (not to be confused with angular services).
-  The Friends service returns an array of friend data
--->
 <ion-view title="{{friend.name}}">
-  <ion-content has-header="true" padding="true">
-  <h1>{{friend.name}}</h1>
-  <p>Friend id = {{friend.id}}</p>
-  </ion-content>
+    <ion-content padding="true" has-header="true">
+        <h1>{{friend.name}}</h1>
+        <p>Friend id = {{friend.id}}</p>
+    </ion-content>
 </ion-view>
