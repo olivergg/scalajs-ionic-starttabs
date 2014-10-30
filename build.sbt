@@ -78,7 +78,6 @@ lazy val getCompileToHtmlPartialFunctionTask = taskKey[(String,OptMode,String) =
 
 getCompileToHtmlPartialFunctionTask := {
   implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
-	val classpath: Seq[Attributed[File]] = (fullClasspath in Runtime).value
   // return the partially applied function "compileToHtml" (a method defined in Build.scala with a (String,OptMode,String) => Unit signature)
   // the result of the task (accesible with .value) is then a function that can be applied.
   compileToHtml _
