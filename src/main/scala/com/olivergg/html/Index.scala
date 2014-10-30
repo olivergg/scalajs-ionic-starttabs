@@ -22,6 +22,7 @@ class Index extends HtmlCompilable {
         // ionic/angularjs is included in the bundled jsdeps created by scala-js. 
         //See the webjar dependencies in the build.sbt to add more javascript dependencies
         script(src := s"js/$moduleName-jsdeps.js")(" "),
+        // ngCordova (this will not work in the web browser...)
         script(src := "ng-cordova.min.js")(" "),
         // cordova script (this will be a 404 during development)
         script(src := "cordova.js")(" "),
