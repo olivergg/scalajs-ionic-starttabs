@@ -3,10 +3,18 @@ package com.olivergg.html
 import com.olivergg.ionic.IonicHtmlTags._
 import scalatags.Text.all._
 import scalatags.Text.tags2.{ title => htitle }
+import com.olivergg.HtmlCompilable
 
-class Index extends HtmlCompilable {
+object Index extends HtmlCompilable {
 
-  override def output(optMode: String, moduleName: String): String = {
+  override def useOptMode = true
+  override def filePath: String = optMode match {
+    case "fastOpt" => "index-dev.html"
+    case "fullOpt" => "index-prod.html"
+  }
+  override def withDocType: Boolean = true
+
+  override def output : String = {
     val jsFileBaseName = s"js/$moduleName"
     val optModeSuffix = optMode match {
       case "fastOpt" => "fastopt.js"
@@ -32,7 +40,7 @@ class Index extends HtmlCompilable {
 
       ),
       body(ngApp := "starter", animation := "no-animation")(
-        ionNavBar(cls := "bar-stable bar-positive",  animation := "no-animation" /*nav-title-slide-ios7"*/)(
+        ionNavBar(cls := "bar-stable bar-positive", animation := "no-animation" /*nav-title-slide-ios7"*/ )(
           ionNavBackButton(cls := "button-icon icon  ion-ios7-arrow-back")("Back")
         ),
         /**
@@ -45,10 +53,4 @@ class Index extends HtmlCompilable {
     ).toString()
   }
 
-  override def filePath(optMode: String): String = optMode match {
-    case "fastOpt" => "index-dev.html"
-    case "fullOpt" => "index-prod.html"
-  }
-
-  override def withDocType: Boolean = true
 }

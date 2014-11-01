@@ -68,11 +68,27 @@ object MyBuild extends Build {
   }
 
   /**
+   * Structural type equivalent to the HtmlCompilable trait.
+   * FIXME Ideally, we should use the HtmlCompilable trait here, but it is not visible from the build definition.
+   * a solution would be to put it in a separate project and make both build definition and projection definition depends on it.
+   *
+   */
+  type HtmlCompilableStructType = {
+    def useOptMode: Boolean
+    def setOptMode(optMode: String): Unit
+    def setModuleName(moduleName: String): Unit
+    def filePath: String
+    def output: String
+    def withDocType: Boolean
+  }
+
+  /**
    * The inputFiles are the classpath files. We use an implicit parameter to avoid confusion with the .scala
    * files that are actually going to be compiled to html (those are determined using reflection)).
    * TODO : find a way to leverage incremental compilation to only compile files that have actually been modified (could be tricky since this task depends on the fullClassPath in Runtime to retrieve the classes).
    */
   def compileToHtml(fqcn: String = "", optMode: OptMode, moduleName: String)(implicit classPathFiles: Seq[sbt.File]): Unit = {
+    // println(s"Entering compileToHtml for fqcn = $fqcn, optMode=$optMode, moduleName=$moduleName")
     // see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
     val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(classPathFiles)
     val withoutJarClassPathFiles = classPathFiles.filterNot(f => f.getAbsolutePath().endsWith(".jar"))
@@ -94,45 +110,37 @@ object MyBuild extends Build {
     /**
      * Local method to create a filtering method to keep only the FQCN that matches the input fqcn parameter if it is not empty.
      */
-    def matchInputFqcn(in: String): Boolean = fqcn.isEmpty() || in == fqcn
+    def matchInputFqcn(in: String): Boolean = (fqcn.isEmpty() || in == fqcn)
     val iteratorMappedToFQCN = filteredIterator.map(convertToFQCN(_)).filter(matchInputFqcn(_))
 
     for (f <- iteratorMappedToFQCN) {
-      val classz = loader.loadClass(f)
+      // load the Object using reflection (see http://www.scala-lang.org/old/node/7065).
+      val classz = Class.forName(f + "$", true, loader)
       if (!classz.isInterface()) {
-        // FIXME : use Scrutural Type to provide type safe method invokation. Ideally, we should use the HtmlCompilable trait here, but it is not visible from the build definition.
-        // a solution would be to put it in a separate project and make both build definition and projection definition depends on it.
-        type HtmlCompilableStructType = {
-          def output(optMode: String, moduleName: String): String
-          def filePath(optMode: String): String
-          def withDocType: Boolean
-        }
-        val tryClassInstance = Try(classz.newInstance().asInstanceOf[HtmlCompilableStructType])
+        val tryClassInstance = Try(classz.getField("MODULE$").get(null).asInstanceOf[HtmlCompilableStructType])
         tryClassInstance match {
-          case Success(classInstance) => {
-            val fileNameTry = Try(classInstance.filePath(optMode.name))
-            val fragStringTry = Try(classInstance.output(optMode.name, moduleName))
+          case Success(classInstance) if (!classInstance.useOptMode || optMode != NotRelevant) => {
+            classInstance.setOptMode(optMode.name)
+            classInstance.setModuleName(moduleName)
+            val fileName = classInstance.filePath
+            val fragString = classInstance.output
             val withDocType = classInstance.withDocType
-            (fileNameTry, fragStringTry) match {
-              case (Success(fileName), Success(fragString)) => {
-                // append a DOCTYPE (if needed) and pretty format the string to write
-                val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
-                val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + fileName)
-                Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
-                println(s"compileToHtml succeeded : $f compiled to $pathToWrite")
-              }
-              case _ => println(s"Ignoring $f")// ignore file where fileName and fragString failed.
-            }
+            // append a DOCTYPE (if needed) and pretty format the string to write
+            val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
+            val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + fileName)
+            Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
+            println(s"compileToHtml succeeded : $f compiled to $pathToWrite")
           }
           case Failure(err) => println(s"Failed compiling $f with error $err but continue anyway to treat other files !")
+          case _ => println(s"Ignoring $f")
         }
       }
     }
   }
 
   abstract sealed class OptMode(val name: String)
-  object FastOpt extends OptMode("fastOpt")
-  object FullOpt extends OptMode("fullOpt")
-  object NotRelevant extends OptMode("DONTUSE")
+  case object FastOpt extends OptMode("fastOpt")
+  case object FullOpt extends OptMode("fullOpt")
+  case object NotRelevant extends OptMode("DONTUSE")
 
 }
