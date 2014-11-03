@@ -5,7 +5,7 @@ An experimental HTML5 mobile application that puts together the following librar
 - scala-js to compile scala to javascript (see http://www.scala-js.org/)
 - Ionic framework that brings an angular based mobile framework (see http://ionicframework.com/)
 - scala-js-angular that provides Angular bindings (see https://github.com/greencatsoft/scalajs-angular)
-- scalatags that provides a way to "compile" scala code to HTML files (see https://github.com/lihaoyi/scalatags): a SBT task has been specially devised to do so)
+- scalatags that provides a way to "compile" scala code to HTML files (see https://github.com/lihaoyi/scalatags) ( a SBT task has been specially devised to do so)
 
 You will need to install the ionic framework first (see http://ionicframework.com/getting-started/).
 
