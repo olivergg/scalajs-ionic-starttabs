@@ -40,6 +40,18 @@ ionic serve
 ```
 (see http://ionicframework.com/docs/guide/testing.html)
 
+To create the fully optimized javascript version of the application (and to remove developement files (fastopt js, source maps, etc.)) :
+
+```
+;cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;fullOptJS
+```
+Then, you can use :
+
+```
+ionic run
+```
+to run it on a connected device
+
 TODO
 
 - ~~Use yet to be created scala-js bindings for the Cordova API~~ NOT SURE, see the ngCordova TODO below

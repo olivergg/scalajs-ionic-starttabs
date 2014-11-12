@@ -8,7 +8,7 @@ name := "Scala-js Ionic Starter Application Tabs"
 
 version := "0.1-SNAPSHOT"
 
-scalaVersion := "2.11.2"
+scalaVersion := "2.11.4"
 
 // Download and link sources for library dependencies (when using sbt eclipse)
 EclipseKeys.withSource := true
@@ -36,7 +36,10 @@ skip in ScalaJSKeys.packageJSDependencies := false
 
 
 ////// SourceMaps configuration ////////////////////////
-ScalaJSKeys.emitSourceMaps := true
+ScalaJSKeys.emitSourceMaps in (Compile, ScalaJSKeys.fastOptJS) := true
+
+// Don't emit source Maps for fullOpt stage.
+ScalaJSKeys.emitSourceMaps in (Compile, ScalaJSKeys.fullOptJS) := false
 
 /// a symlink to the src folder may need to be added in the ionic/www folder in order to make SourceMaps work. 
 ScalaJSKeys.relativeSourceMaps := true
@@ -53,23 +56,6 @@ ScalaJSKeys.persistLauncher in Test := false
 
 // Target directory for the CSS compiled with less.
 (resourceManaged in (Compile, LessKeys.less)) := baseDirectory.value / "ionic" / "www" / "css" / "compiled"
-
-
-// Extends the original packageJSDependencies to copy the .js dependencies files to the ionic folder (using a method defined in project/Build.scala)
-// (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
-ScalaJSKeys.packageJSDependencies in Compile := {
-	val originalResult=(ScalaJSKeys.packageJSDependencies in Compile).value
-	copyToOutputJS(originalResult)
-	originalResult
-}
-
-// Extends the original packageScalaJSLauncher to copy the .js launcher
-// (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
-ScalaJSKeys.packageScalaJSLauncher in Compile := {
-	val originalResult=(ScalaJSKeys.packageScalaJSLauncher in Compile).value
-	copyToOutputJS(originalResult.data)
-	originalResult
-}
 
 
 /// Defined a task that returns the function to compile some scala files to HTML files (using ScalaTags).
@@ -96,15 +82,28 @@ compileAllToHtmlTask := {
 // (See http://www.scala-sbt.org/0.13.1/docs/Detailed-Topics/Tasks.html#modifying-an-existing-task)
 ScalaJSKeys.fastOptJS in Compile := {
 	val originalResult=(ScalaJSKeys.fastOptJS in Compile).value
-	copySeqToOutputJS(originalResult.allCode)
 	getCompileToHtmlPartialFunctionTask.value("com.olivergg.html.Index",FastOpt, moduleName.value)
 	originalResult
 }
 
 ScalaJSKeys.fullOptJS in Compile := { 
 	val originalResult=(ScalaJSKeys.fullOptJS in Compile).value
-	copySeqToOutputJS(originalResult.allCode)
 	getCompileToHtmlPartialFunctionTask.value("com.olivergg.html.Index",FullOpt, moduleName.value)
 	originalResult
 }
 
+/// Change the crossTarget of different tasks to output the fastOpt, fullOpt, jsdeps and launcher JS files in a custom output directory.
+crossTarget in (Compile, ScalaJSKeys.fastOptJS) := outputCompiledJS
+
+crossTarget in (Compile, ScalaJSKeys.packageScalaJSLauncher ) := outputCompiledJS
+
+crossTarget in (Compile, ScalaJSKeys.packageJSDependencies ) := outputCompiledJS
+
+crossTarget in (Compile, ScalaJSKeys.fullOptJS) := outputCompiledJS
+
+/// Define a task to clean up the output JS directory
+lazy val cleanOutputJS = taskKey[Unit]("Clean the output JS directory")
+
+cleanOutputJS := {
+	cleanOutputJSDir()
+}

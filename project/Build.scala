@@ -2,15 +2,15 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Paths
+
 import scala.language.reflectiveCalls
 import scala.reflect.io.Path
-import scala.scalajs.tools.io.FileVirtualFile
-import scala.scalajs.tools.io.VirtualJSFile
-import org.apache.commons.io.FileUtils
-import scala.util.Try
-import sbt.Build
-import scala.util.Success
 import scala.util.Failure
+import scala.util.Success
+import scala.util.Try
+
+import sbt.Build
+import sbt.IO
 /**
  *  See https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse to develop this file in eclipse.
  *
@@ -38,32 +38,12 @@ object MyBuild extends Build {
   // Regex to capture the complete path of a class in the filesystem
   private val MatchFQCN = """.*classes\/(.*)\.class""".r
 
-  /**
-   * Copy the given file to the output cordova js folder
-   */
-  def copyToOutputJS(file: java.io.File): Unit = {
-    println(s"Copying file ${file.getAbsolutePath()} to $outputCompiledJS ")
-    FileUtils.copyFileToDirectory(file, outputCompiledJS)
-  }
-
-  /**
-   * Copy each file of the VirtualJSFile seq along with its associated Source Maps file if it exists.
-   */
-  def copySeqToOutputJS(jsFileList: Seq[VirtualJSFile]): Unit = {
-    println("Invoking copySeqToOutputJS on a seq of VirtualJSFile")
-    jsFileList.foreach {
-      x =>
-        x match {
-          case ax: FileVirtualFile => {
-            val fjs = new File(ax.path)
-            val fmap = new File(ax.path.toString + ".map")
-            copyToOutputJS(fjs)
-            if (fmap.exists()) {
-              copyToOutputJS(fmap)
-            }
-          }
-          case _ => ;
-        }
+  def cleanOutputJSDir(): Unit = {
+    val filteredIterator = Path(outputCompiledJS) walkFilter { p =>
+      p.isDirectory || !p.name.startsWith((".")) && (p.name.endsWith(".js") || p.name.endsWith(".map")) 
+    }
+    for (f <- filteredIterator) {
+      IO.delete(new File(f.path))
     }
   }
 
