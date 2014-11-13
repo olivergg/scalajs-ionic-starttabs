@@ -28,7 +28,7 @@ sbt
 ~fastOptJS
 ```
 
-To compile scala files in the html package to HTML files :
+To compile scala files in the html package (`htmlScalaSourceDir`) to HTML files :
 ```
 compileHtmlDevTask
 ```
@@ -37,6 +37,9 @@ during development or
 compileHtmlProdTask
 ```
 for production.
+
+**Note : since ScalaTags is only a dependency of the app-jvm project, you can't put HtmlCompilable objects in the shared project, unless you add ScalaTags as a dependency of the app-js project as well**
+
 
 then, to run the app in the browser, you can use ionic built-in command
 ```
