@@ -50,14 +50,15 @@ To create the fully optimized javascript version of the application (and to remo
 ```
 dist
 ```
-dist is just an alias to ";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlProdTask ;fullOptJS" 
+`dist` is just an alias to 
+`";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlProdTask ;fullOptJS"`
 
 Then, you can use :
 
 ```
 ionic run
 ```
-to run it on a connected device
+to launch the application on a connected device
 
 TODO
 
