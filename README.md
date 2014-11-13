@@ -72,7 +72,8 @@ TODO
 - Improve the documentation in this README and in the code.
 - ~~use webjar to include ionic framework.~~
 - ~~find a way to generate index-dev.html and index.html (for fastOptJS and fullOptJS) automatically.~~
-- Use cross building (see http://www.scala-js.org/doc/sbt/cross-building.html) to put the HtmlCompilable trait in a JVM project (to prevent them from being included in the output JS). Use the shared directory to share code between the HtmlCompilable trait and the rest of the application.
+- ~~Use cross building (see http://www.scala-js.org/doc/sbt/cross-building.html) to put the HtmlCompilable trait in a JVM project (to prevent them from being included in the output JS).~~
+- Use the shared directory to share code between the template scala files and the controllers/views.
 
 FIXME 
 - ~~The back button does not close the application on android (4.1) (must be related to the cordova API)~~
