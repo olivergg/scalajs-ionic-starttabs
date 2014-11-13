@@ -19,7 +19,6 @@ addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.1")
 
 libraryDependencies ++= Seq(
   // Add your project dependencies here,
-  "org.apache.commons" % "commons-io" % "1.3.2",
   "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.2",
   "org.clapper" % "classutil_2.11" % "1.0.5"
 )

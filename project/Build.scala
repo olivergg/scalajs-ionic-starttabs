@@ -11,6 +11,7 @@ import scala.util.Try
 
 import sbt.Build
 import sbt.IO
+import sbt.Keys.TaskStreams
 /**
  *  See https://github.com/typesafehub/sbteclipse/wiki/Using-sbteclipse to develop this file in eclipse.
  *
@@ -21,6 +22,10 @@ import sbt.IO
  * Set the name of the build definition project to something meaningful: set name := "sbt-build"
  * Execute eclipse and then reload return
  * Import the build definition project into Eclipse and add the root directory to the build path
+ *
+ *
+ * See also useful keys from http://www.scala-sbt.org/0.13.6/sxr/sbt/Keys.scala.html#sbt.Keys
+ *
  *
  *
  */
@@ -38,13 +43,17 @@ object MyBuild extends Build {
   // Regex to capture the complete path of a class in the filesystem
   private val MatchFQCN = """.*classes\/(.*)\.class""".r
 
-  def cleanOutputJSDir(): Unit = {
+  /**
+   * Clean .js and .map files from the outputCompiledJS folder.
+   */
+  def cleanOutputJSDir()(implicit logger:TaskStreams): Unit = {
     val filteredIterator = Path(outputCompiledJS) walkFilter { p =>
-      p.isDirectory || !p.name.startsWith((".")) && (p.name.endsWith(".js") || p.name.endsWith(".map")) 
+      p.isDirectory || !p.name.startsWith((".")) && (p.name.endsWith(".js") || p.name.endsWith(".map"))
     }
     for (f <- filteredIterator) {
       IO.delete(new File(f.path))
     }
+    logger.log.info("Output directory cleaned")
   }
 
   /**
@@ -67,7 +76,7 @@ object MyBuild extends Build {
    * files that are actually going to be compiled to html (those are determined using reflection)).
    * TODO : find a way to leverage incremental compilation to only compile files that have actually been modified (could be tricky since this task depends on the fullClassPath in Runtime to retrieve the classes).
    */
-  def compileToHtml(fqcn: String = "", optMode: OptMode, moduleName: String)(implicit classPathFiles: Seq[sbt.File]): Unit = {
+  def compileToHtml(fqcn: String = "", optMode: OptMode, moduleName: String)(implicit classPathFiles: Seq[sbt.File], logger:TaskStreams): Unit = {
     // println(s"Entering compileToHtml for fqcn = $fqcn, optMode=$optMode, moduleName=$moduleName")
     // see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
     val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(classPathFiles)
@@ -85,7 +94,7 @@ object MyBuild extends Build {
      */
     def convertToFQCN(path: Path): String = path.path match {
       case MatchFQCN(innerPath) => innerPath.replaceAll("""/""", """.""")
-      case _ => println("something went wrong with the matching of the path " + path); path.path
+      case _ => logger.log.error("something went wrong with the matching of the path " + path); path.path
     }
     /**
      * Local method to create a filtering method to keep only the FQCN that matches the input fqcn parameter if it is not empty.
@@ -99,7 +108,7 @@ object MyBuild extends Build {
       if (!classz.isInterface()) {
         val tryClassInstance = Try(classz.getField("MODULE$").get(null).asInstanceOf[HtmlCompilableStructType])
         tryClassInstance match {
-          case Success(classInstance) if (!classInstance.useOptMode || optMode != NotRelevant) => {
+          case Success(classInstance) => {
             classInstance.setOptMode(optMode.name)
             classInstance.setModuleName(moduleName)
             val fileName = classInstance.filePath
@@ -109,18 +118,21 @@ object MyBuild extends Build {
             val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
             val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + fileName)
             Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
-            println(s"compileToHtml succeeded : $f compiled to $pathToWrite")
+            logger.log.info(s"compileToHtml succeeded : $f compiled to $pathToWrite")
           }
-          case Failure(err) => println(s"Failed compiling $f with error $err but continue anyway to treat other files !")
-          case _ => println(s"Ignoring $f")
+          case Failure(err) => logger.log.error(s"Failed compiling $f with error $err but continue anyway to treat other files !")
+          case _ => logger.log.warn(s"Ignoring $f")
         }
       }
     }
   }
 
+  /**
+   * Type-safe representation for the optimization mode of scala-js.
+   * This is just a simple wrapper around a strig.
+   */
   abstract sealed class OptMode(val name: String)
   case object FastOpt extends OptMode("fastOpt")
   case object FullOpt extends OptMode("fullOpt")
-  case object NotRelevant extends OptMode("DONTUSE")
 
 }

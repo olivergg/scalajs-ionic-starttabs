@@ -30,8 +30,13 @@ sbt
 
 To compile scala files in the html package to HTML files :
 ```
-compileAllToHtmlTask
+compileHtmlDevTask
 ```
+during development or
+```
+compileHtmlProdTask
+```
+for production.
 
 then, to run the app in the browser, you can use ionic built-in command
 ```
@@ -43,8 +48,10 @@ ionic serve
 To create the fully optimized javascript version of the application (and to remove developement files (fastopt js, source maps, etc.)) :
 
 ```
-;cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;fullOptJS
+dist
 ```
+dist is just an alias to ";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlProdTask ;fullOptJS" 
+
 Then, you can use :
 
 ```
