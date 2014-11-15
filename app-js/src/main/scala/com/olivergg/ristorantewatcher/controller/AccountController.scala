@@ -25,11 +25,12 @@ object AccountController extends Controller {
 
   override def initialize(scope: ScopeType) {
     println("init " + name)
-    val ipAddressFut: Future[Try[IPAddress]] = HttpHelpers.getJsonAndUnpickle[IPAddress]("http://ip.jsontest.com/")
+    val ipAddressFut: Future[IPAddress] = HttpHelpers.getJsonAndUnpickle[IPAddress]("http://ip.jsontest.com/")
     ipAddressFut.onSuccess {
-      case Success(ip) =>
-        println(s"response from server IP = $ip"); scope.ip = ip
-      case Failure(err) => println(s"something went wrong = $err"); scope.ip = IPAddress("ERROR")
+      case ip => println(s"response from server IP = $ip"); scope.ip = ip
+    }
+    ipAddressFut.onFailure {
+      case err => println(s"something went wrong = $err"); scope.ip = IPAddress("ERROR")
     }
 
   }
