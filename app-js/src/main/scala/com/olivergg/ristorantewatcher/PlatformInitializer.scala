@@ -14,10 +14,8 @@ object PlatformInitializer extends Runnable {
   var ionicPlatform: IonicPlatform = _
   
   override def initialize() {
-    ionicPlatform.ready { () =>
-      println("ionicPlatform is ready")
+    ionicPlatform.ready { () =>  println("ionicPlatform is ready") }
       //TODO : use ngCordova to communicate with the cordova API in an angular way
       //TODO : find a way to use cordova plugins with ionic serve in a web browser.
-    }
   }
 }
