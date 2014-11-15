@@ -17,10 +17,10 @@ object HttpHelpers {
   def getJsonAndUnpickle[T: Unpickler](url: String)(implicit http: HttpService, ec: ExecutionContext ): Future[T] = {
     val getFuture: Future[js.Any] = http.get(url) // implicit conversion occurs here.
     val intermediateFuture: Future[Try[T]] = getFuture.map(JSON.stringify(_)).map(Unpickle[T].fromString(_))
-    val outFuture: Future[T] = intermediateFuture.flatMap{_ match {
+    val outFuture: Future[T] = intermediateFuture.flatMap {
       case Success(s) => Future.successful(s)
       case Failure(f) => Future.failed(f)
-    }}
+    }
     outFuture
   }
 
