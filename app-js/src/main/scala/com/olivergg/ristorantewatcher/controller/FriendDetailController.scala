@@ -4,7 +4,7 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportAll
 import com.olivergg.ristorantewatcher.dto.Friend
 import com.olivergg.ristorantewatcher.scalaservice.FriendsService
-import com.olivergg.ionic.StateParams
+import com.olivergg.uirouter.StateParams
 import com.greencatsoft.angularjs.core.Scope
 import com.greencatsoft.angularjs.inject
 import com.greencatsoft.angularjs.Controller
