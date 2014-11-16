@@ -4,7 +4,7 @@
 // There are 3 projects defined : root, appJS and appJVM.
 // root is just an aggregation of appJS and appJVM but can be imported in a IDE (to edit the build definition) as well.
 // appJS and appJVM share the appSharedSettings
-// appJS use scalaJSSettings and lessSettings which are specific for javascript development.
+// appJS uses scalaJSSettings and lessSettings which are specific for javascript development.
 lazy val root = project.in(file(".")).aggregate(appJS, appJVM).settings(
   name := "Scala-js Ionic Starter Application Tabs (Root)",
   publish := {},
