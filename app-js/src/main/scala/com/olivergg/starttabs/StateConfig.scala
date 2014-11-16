@@ -1,4 +1,4 @@
-package com.olivergg.ristorantewatcher
+package com.olivergg.starttabs
 
 import com.olivergg.uirouter.State
 import com.olivergg.uirouter.View

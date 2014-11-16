@@ -1,4 +1,4 @@
-package com.olivergg.ristorantewatcher.controller
+package com.olivergg.starttabs.controller
 
 import com.greencatsoft.angularjs.Controller
 

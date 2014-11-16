@@ -1,4 +1,4 @@
-package com.olivergg.ristorantewatcher.controller
+package com.olivergg.starttabs.controller
 
 import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.runNow
@@ -12,9 +12,9 @@ import com.greencatsoft.angularjs.Controller
 import com.greencatsoft.angularjs.core.HttpService
 import com.greencatsoft.angularjs.core.Scope
 import com.greencatsoft.angularjs.inject
-import com.olivergg.ristorantewatcher.dto.IPAddress
+import com.olivergg.starttabs.dto.IPAddress
 import prickle._
-import com.olivergg.ristorantewatcher.service.BetterHttpService
+import com.olivergg.starttabs.service.BetterHttpService
 
 object AccountController extends Controller {
 

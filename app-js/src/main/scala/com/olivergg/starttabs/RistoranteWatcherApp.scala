@@ -1,15 +1,15 @@
-package com.olivergg.ristorantewatcher
+package com.olivergg.starttabs
 
 import scala.scalajs.js.JSConverters.array2JSRichGenTrav
 import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
 import com.greencatsoft.angularjs.Module
-import com.olivergg.ristorantewatcher.controller.DashController
-import com.olivergg.ristorantewatcher.controller.FriendsController
-import com.olivergg.ristorantewatcher.controller.FriendDetailController
-import com.olivergg.ristorantewatcher.controller.AccountController
+import com.olivergg.starttabs.controller.DashController
+import com.olivergg.starttabs.controller.FriendsController
+import com.olivergg.starttabs.controller.FriendDetailController
+import com.olivergg.starttabs.controller.AccountController
 import com.greencatsoft.angularjs.Angular
-import com.olivergg.ristorantewatcher.service.BetterHttpServiceFactory
+import com.olivergg.starttabs.service.BetterHttpServiceFactory
 
 /**
  * The main entry point of the application. The main method is called from the index.html.

@@ -1,4 +1,4 @@
-package com.olivergg.ristorantewatcher.dto
+package com.olivergg.starttabs.dto
 
 import scala.scalajs.js.annotation.JSExportAll
 @JSExportAll

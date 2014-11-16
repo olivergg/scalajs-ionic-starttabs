@@ -1,4 +1,4 @@
-package com.olivergg.ristorantewatcher.service
+package com.olivergg.starttabs.service
 
 import com.greencatsoft.angularjs.core.HttpService
 import com.greencatsoft.angularjs.injectable

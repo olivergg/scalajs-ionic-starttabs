@@ -1,8 +1,8 @@
-package com.olivergg.ristorantewatcher.scalaservice
+package com.olivergg.starttabs.scalaservice
 
 import scala.scalajs.js.annotation.JSExportAll
 
-import com.olivergg.ristorantewatcher.dto.Friend
+import com.olivergg.starttabs.dto.Friend
 
 object FriendsService {
 

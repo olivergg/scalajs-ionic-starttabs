@@ -1,9 +1,9 @@
-package com.olivergg.ristorantewatcher.controller
+package com.olivergg.starttabs.controller
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportAll
-import com.olivergg.ristorantewatcher.dto.Friend
-import com.olivergg.ristorantewatcher.scalaservice.FriendsService
+import com.olivergg.starttabs.dto.Friend
+import com.olivergg.starttabs.scalaservice.FriendsService
 import com.olivergg.uirouter.StateParams
 import com.greencatsoft.angularjs.core.Scope
 import com.greencatsoft.angularjs.inject

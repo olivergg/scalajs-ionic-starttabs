@@ -1,0 +1,1 @@
+This package contains the business code of the starttabs application.
