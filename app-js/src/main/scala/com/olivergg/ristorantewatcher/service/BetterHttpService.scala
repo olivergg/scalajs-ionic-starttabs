@@ -18,7 +18,7 @@ import com.olivergg.ionic.LoadingOpt
 import com.greencatsoft.angularjs.Factory
 
 @injectable("$betterhttpService")
-class BetterHttpService (val http:HttpService, val loading:IonicLoading){
+class BetterHttpService (implicit val http:HttpService, val loading:IonicLoading){
 
   def getJsonAndUnpickle[T: Unpickler](url: String): Future[T] = {
     loading.show(LoadingOpt("Loading..."))
@@ -38,10 +38,10 @@ object BetterHttpServiceFactory extends Factory[BetterHttpService] {
   override val name = "$betterhttpService"
 
   @inject
-  var http: HttpService = _
+  implicit var http: HttpService = _
   
   @inject
-  var loading : IonicLoading = _
+  implicit var loading : IonicLoading = _
 
-  override def apply(): BetterHttpService = new BetterHttpService(http, loading)
+  override def apply(): BetterHttpService = new BetterHttpService()
 }
