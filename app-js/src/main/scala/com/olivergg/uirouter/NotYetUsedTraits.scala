@@ -6,7 +6,6 @@ import scala.scalajs.js.annotation.JSBracketAccess
 
 import com.greencatsoft.angularjs.core.Promise
 /// this file contains not yet used traits generated thanks to https://github.com/sjrd/scala-js-ts-importer
-/// if used trait should be moved of this file.
 
 trait ITypedState[T] extends js.Object {
   var name: String = ???
