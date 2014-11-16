@@ -14,18 +14,18 @@ import com.greencatsoft.angularjs.core.Scope
 import com.greencatsoft.angularjs.inject
 import com.olivergg.ristorantewatcher.dto.IPAddress
 import prickle._
-import com.olivergg.ristorantewatcher.helper.HttpHelpers
+import com.olivergg.ristorantewatcher.service.BetterHttpService
 
 object AccountController extends Controller {
 
   override val name = "AccountCtrl"
 
   @inject
-  implicit var http: HttpService = _
+  var betterHttp: BetterHttpService = _
 
   override def initialize(scope: ScopeType) {
     println("init " + name)
-    val ipAddressFut: Future[IPAddress] = HttpHelpers.getJsonAndUnpickle[IPAddress]("http://ip.jsontest.com/")
+    val ipAddressFut: Future[IPAddress] = betterHttp.getJsonAndUnpickle[IPAddress]("http://ip.jsontest.com/")
     ipAddressFut.onSuccess {
       case ip => println(s"response from server IP = $ip"); scope.ip = ip
     }
