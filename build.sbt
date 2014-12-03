@@ -1,3 +1,7 @@
+import com.typesafe.sbt.web.pipeline.Pipeline
+import com.typesafe.sbt.web.SbtWeb
+import com.typesafe.sbt.web._
+
 // See http://www.scala-js.org/doc/sbt/cross-building.html 
 // and https://github.com/scala-js/scalajs-cross-compile-example/blob/master/build.sbt 
 // for cross building configuration.
@@ -25,6 +29,9 @@ lazy val compileHtmlProdTask = taskKey[Unit]("Compile all scala files contained 
 
 /// Define a task to clean up the output JS directory
 lazy val cleanOutputJS = taskKey[Unit]("Clean the output JS directory")
+
+lazy val mySourceFileTask = taskKey[Unit]("my")
+///////////////////// END OF TAKS DEFINITION ///////////
 
 lazy val appSharedSettings = Seq(
     version := "0.1-SNAPSHOT",
@@ -78,8 +85,13 @@ lazy val appJS = project.in(file("app-js"))
 	cleanOutputJS := {
 		implicit val s: TaskStreams = streams.value
 		cleanOutputJSDir()
+	},
+	mySourceFileTask := {
+  		val a = (sourceDirectory in Assets).value
+  		val s: TaskStreams = streams.value
+  		s.log.info(""+a)
 	}
-	)
+	).enablePlugins(SbtWeb)
 	
 
 lazy val appJVM = project.in(file("app-jvm"))

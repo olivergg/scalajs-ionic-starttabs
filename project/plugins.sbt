@@ -17,6 +17,8 @@ addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.5.0")
 
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.1")
 
+addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.1.1")
+
 libraryDependencies ++= Seq(
   // Add your project dependencies here,
   "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.2",
