@@ -1,14 +1,10 @@
-import com.typesafe.sbt.web.pipeline.Pipeline
-import com.typesafe.sbt.web.SbtWeb
-import com.typesafe.sbt.web._
-
 // See http://www.scala-js.org/doc/sbt/cross-building.html 
 // and https://github.com/scala-js/scalajs-cross-compile-example/blob/master/build.sbt 
 // for cross building configuration.
 // There are 3 projects defined : root, appJS and appJVM.
 // root is just an aggregation of appJS and appJVM but can be imported in a IDE (to edit the build definition) as well.
 // appJS and appJVM share the appSharedSettings
-// appJS uses scalaJSSettings and lessSettings which are specific for javascript development.
+// appJS uses scalaJSSettings which is specific for javascript development.
 lazy val root = project.in(file(".")).aggregate(appJS, appJVM).settings(
   name := "Scala-js Ionic Starter Application Tabs (Root)",
   publish := {},
@@ -30,7 +26,6 @@ lazy val compileHtmlProdTask = taskKey[Unit]("Compile all scala files contained 
 /// Define a task to clean up the output JS directory
 lazy val cleanOutputJS = taskKey[Unit]("Clean the output JS directory")
 
-lazy val mySourceFileTask = taskKey[Unit]("my")
 ///////////////////// END OF TAKS DEFINITION ///////////
 
 lazy val appSharedSettings = Seq(
@@ -48,8 +43,6 @@ lazy val appSharedSettings = Seq(
 lazy val appJS = project.in(file("app-js"))
    // Turn this project into a Scala.js project by importing these settings
   .settings(scalaJSSettings: _*)
-  // Turn this project into a less css aware project by importing these settings.
-  .settings(lessSettings: _*)
   .settings(appSharedSettings: _*)
   .settings(
     // Add JS-specific settings here
@@ -75,8 +68,6 @@ lazy val appJS = project.in(file("app-js"))
 	ScalaJSKeys.persistLauncher in Compile := true,
 	ScalaJSKeys.persistLauncher in Test := false,
 	//// HTML5 Cordova, web application related modifications below
-	// Target directory for the CSS compiled with less.
-	(resourceManaged in (Compile, LessKeys.less)) := baseDirectory.value / "ionic" / "www" / "css" / "compiled",
 	/// Change the crossTarget of different tasks to output the fastOpt, fullOpt, jsdeps and launcher JS files in a custom output directory.
 	crossTarget in (Compile, ScalaJSKeys.fastOptJS) := outputCompiledJS,
 	crossTarget in (Compile, ScalaJSKeys.packageScalaJSLauncher ) := outputCompiledJS,
@@ -85,13 +76,8 @@ lazy val appJS = project.in(file("app-js"))
 	cleanOutputJS := {
 		implicit val s: TaskStreams = streams.value
 		cleanOutputJSDir()
-	},
-	mySourceFileTask := {
-  		val a = (sourceDirectory in Assets).value
-  		val s: TaskStreams = streams.value
-  		s.log.info(""+a)
 	}
-	).enablePlugins(SbtWeb)
+	)
 	
 
 lazy val appJVM = project.in(file("app-jvm"))

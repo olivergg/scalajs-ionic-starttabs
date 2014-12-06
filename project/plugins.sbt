@@ -9,15 +9,11 @@ resolvers += Resolver.url(
   url("http://dl.bintray.com/content/sbt/sbt-plugin-releases"))(
     Resolver.ivyStylePatterns)
 
-addSbtPlugin("me.lessis" % "less-sbt" % "0.2.2")
-
-addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.5.5")
+addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.5.6")
 
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.5.0")
 
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.1")
-
-addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.1.1")
 
 libraryDependencies ++= Seq(
   // Add your project dependencies here,

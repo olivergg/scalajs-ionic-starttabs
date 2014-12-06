@@ -129,7 +129,7 @@ object MyBuild extends Build {
 
   /**
    * Type-safe representation for the optimization mode of scala-js.
-   * This is just a simple wrapper around a strig.
+   * This is merely a wrapped String.
    */
   abstract sealed class OptMode(val name: String)
   case object FastOpt extends OptMode("fastOpt")

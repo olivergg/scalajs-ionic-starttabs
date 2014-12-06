@@ -14,8 +14,8 @@ import com.olivergg.starttabs.service.BetterHttpServiceFactory
 /**
  * The main entry point of the application. The main method is called from the index.html.
  */
-@JSExport
-object RistoranteWatcherApp extends JSApp {
+@JSExport("IonicStartTabsApp")
+object IonicStartTabsApp extends JSApp {
   override def main(): Unit = {
     println("start main")
 
