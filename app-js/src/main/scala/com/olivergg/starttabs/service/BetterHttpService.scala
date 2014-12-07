@@ -18,15 +18,21 @@ import com.olivergg.ionic.LoadingOpt
 import com.greencatsoft.angularjs.Factory
 
 @injectable("$betterhttpService")
-class BetterHttpService (implicit val http:HttpService, val loading:IonicLoading){
+class BetterHttpService(implicit val http: HttpService, val loading: IonicLoading) {
 
   def getJsonAndUnpickle[T: Unpickler](url: String): Future[T] = {
     loading.show(LoadingOpt("Loading..."))
     val getFuture: Future[js.Any] = http.get(url) // implicit conversion occurs here.
+    getFuture.onFailure {
+      case err => {
+        loading.hide()
+        loading.show(LoadingOpt("Please check your network connection", duration = 3000))
+      }
+    }
     val intermediateFuture: Future[Try[T]] = getFuture.map(JSON.stringify(_)).map(Unpickle[T].fromString(_))
     val outFuture: Future[T] = intermediateFuture.flatMap {
-      case Success(s) => loading.hide();Future.successful(s)
-      case Failure(f) => loading.hide();Future.failed(f)
+      case Success(s) => loading.hide(); Future.successful(s)
+      case Failure(f) => loading.hide(); Future.failed(f)
     }
     outFuture
   }
@@ -39,9 +45,9 @@ object BetterHttpServiceFactory extends Factory[BetterHttpService] {
 
   @inject
   implicit var http: HttpService = _
-  
+
   @inject
-  implicit var loading : IonicLoading = _
+  implicit var loading: IonicLoading = _
 
   override def apply(): BetterHttpService = new BetterHttpService()
 }

@@ -25,14 +25,11 @@ object AccountController extends Controller {
 
   override def initialize(scope: ScopeType) {
     println("init " + name)
+    scope.ip = IPAddress("Unknown")
     val ipAddressFut: Future[IPAddress] = betterHttp.getJsonAndUnpickle[IPAddress]("http://ip.jsontest.com/")
     ipAddressFut.onSuccess {
       case ip => println(s"response from server IP = $ip"); scope.ip = ip
     }
-    ipAddressFut.onFailure {
-      case err => println(s"something went wrong = $err"); scope.ip = IPAddress("ERROR")
-    }
-
   }
 
   trait ScopeType extends Scope {
