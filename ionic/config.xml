@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.ionic516178" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>ionic</name>
+  <name>starttabs</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Ionic Start Tabs starter application based on Scala.js
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+    <author email="hi@ionicframework" href="https://github.com/olivergg">
+      Olivergg
     </author>
   <content src="index-prod.html"/>
   <access origin="*"/>
@@ -13,7 +13,13 @@
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="BackupWebStorage" value="none"/>
+  <preference name="SplashScreen" value="screen" />
+  <preference name="SplashScreenDelay" value="10000" />
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+  <platform name="android">
+	  <icon src="www/img/ionic.png" width="80" height="80" />            
+  </platform>
+  
 </widget>
