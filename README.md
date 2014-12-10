@@ -7,6 +7,8 @@ An experimental HTML5 mobile application that puts together the following librar
 - **scala-js-angular** that provides Angular bindings (see https://github.com/greencatsoft/scalajs-angular)
 - **scalatags** that provides a way to "compile" scala code to HTML files (see https://github.com/lihaoyi/scalatags) ( a SBT task has been specially devised to do so)
 
+A live demo is available at http://olivergg.github.io/scalajs-ionic-starttabs/www/index-prod.html
+
 You will need to install the Ionic framework first (see http://ionicframework.com/getting-started/).
 
 This application aims to be almost equivalent to the one created with : ```ionic start XXXXXXX tabs```
