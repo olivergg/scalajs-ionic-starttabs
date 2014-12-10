@@ -1,0 +1,55 @@
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body {
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.percentBar {
+  height: 70px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #bfd255;
+}
+.percentBarContainer {
+  width: 100%;
+  border: 1px inset;
+  border-radius: 10px 10px 10px 10px;
+  position: relative;
+}
+.percentBarTextContainer {
+  display: table;
+  width: 100%;
+  height: 70px;
+  text-align: center;
+  position: absolute;
+  z-index: 2;
+  outline: none;
+  cursor: pointer;
+}
+.percentBarText {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: large;
+  font-weight: bolder;
+  color: white;
+}
+.deviceReady {
+  text-align: center;
+  background: red;
+}
+.mylabel {
+  font-style: italic;
+  margin-top: 0 ! important;
+}
+#mainPage .ui-header h1 {
+  font-size: 1.3em;
+}
+.hiddenBlock {
+  display: none;
+}
