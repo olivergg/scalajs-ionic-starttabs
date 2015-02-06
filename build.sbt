@@ -30,7 +30,7 @@ lazy val cleanOutputJS = taskKey[Unit]("Clean the output JS directory")
 
 lazy val appSharedSettings = Seq(
     version := "0.1-SNAPSHOT",
-    scalaVersion := "2.11.4",
+    scalaVersion := "2.11.5",
     unmanagedSourceDirectories in Compile += baseDirectory.value / ".." / "app-shared" / "src" / "main" / "scala",
     // Download and link sources for library dependencies (when using sbt eclipse)
 	EclipseKeys.withSource := true,
@@ -42,37 +42,37 @@ lazy val appSharedSettings = Seq(
 
 lazy val appJS = project.in(file("app-js"))
    // Turn this project into a Scala.js project by importing these settings
-  .settings(scalaJSSettings: _*)
+  .enablePlugins(ScalaJSPlugin)
   .settings(appSharedSettings: _*)
   .settings(
     // Add JS-specific settings here
     name := "Scala-js Ionic Starter Application Tabs",
     normalizedName := "ionic-starttabs",
     libraryDependencies ++= Seq(
-    "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
-    "com.greencatsoft" %%% "scalajs-angular" % "0.2",
-    "com.github.benhutchison" %%% "prickle" % "1.0.2"
+    "org.scala-js" %%% "scalajs-dom" % "0.7.0",
+    "com.greencatsoft" %%% "scalajs-angular" % "0.4-SNAPSHOT",
+    "com.github.benhutchison" %%% "prickle" % "1.1.3"
 	),
-	ScalaJSKeys.jsDependencies += scala.scalajs.sbtplugin.RuntimeDOM,
+	jsDependencies += RuntimeDOM,
 	/// Webjars dependencies
-	ScalaJSKeys.jsDependencies += "org.webjars" % "ionic" % "1.0.0-beta.13" / "ionic.bundle.min.js",
-	skip in ScalaJSKeys.packageJSDependencies := false,
+	jsDependencies += "org.webjars" % "ionic" % "1.0.0-beta.13" / "ionic.bundle.min.js",
+	skip in packageJSDependencies := false,
 	////// SourceMaps configuration ////////////////////////
-	ScalaJSKeys.emitSourceMaps in (Compile, ScalaJSKeys.fastOptJS) := true,
+	emitSourceMaps in (Compile, fastOptJS) := true,
 	// Don't emit source Maps for fullOpt stage.
-	ScalaJSKeys.emitSourceMaps in (Compile, ScalaJSKeys.fullOptJS) := false,
+	emitSourceMaps in (Compile, fullOptJS) := false,
 	/// a symlink to the src folder may need to be added in the ionic/www folder in order to make SourceMaps work. 
-	ScalaJSKeys.relativeSourceMaps := true,
+	relativeSourceMaps := true,
 	///// launcher js configuration ////////////////////////
 	/// See http://www.scala-js.org/doc/tutorial.html : Automatically Creating a Launcher
-	ScalaJSKeys.persistLauncher in Compile := true,
-	ScalaJSKeys.persistLauncher in Test := false,
+	persistLauncher in Compile := true,
+	persistLauncher in Test := false,
 	//// HTML5 Cordova, web application related modifications below
 	/// Change the crossTarget of different tasks to output the fastOpt, fullOpt, jsdeps and launcher JS files in a custom output directory.
-	crossTarget in (Compile, ScalaJSKeys.fastOptJS) := outputCompiledJS,
-	crossTarget in (Compile, ScalaJSKeys.packageScalaJSLauncher ) := outputCompiledJS,
-	crossTarget in (Compile, ScalaJSKeys.packageJSDependencies ) := outputCompiledJS,
-	crossTarget in (Compile, ScalaJSKeys.fullOptJS) := outputCompiledJS,
+	crossTarget in (Compile, fastOptJS) := outputCompiledJS,
+	crossTarget in (Compile, packageScalaJSLauncher ) := outputCompiledJS,
+	crossTarget in (Compile, packageJSDependencies ) := outputCompiledJS,
+	crossTarget in (Compile, fullOptJS) := outputCompiledJS,
 	cleanOutputJS := {
 		implicit val s: TaskStreams = streams.value
 		cleanOutputJSDir()
@@ -87,7 +87,7 @@ lazy val appJVM = project.in(file("app-jvm"))
     name := "Scala-js Ionic Starter Application Tabs (JVM)",
     normalizedName := "ionic-starttabs",
     libraryDependencies ++= Seq(
-    "com.scalatags" %%% "scalatags" % "0.4.2"
+    "com.lihaoyi" %% "scalatags" % "0.4.5"
 	),
 	getCompileToHtmlPartialFunctionTask := {
 	  implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
