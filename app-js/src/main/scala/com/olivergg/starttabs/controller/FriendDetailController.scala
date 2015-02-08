@@ -3,14 +3,13 @@ package com.olivergg.starttabs.controller
 import scala.scalajs.js.annotation.JSBracketAccess
 import scala.scalajs.js.annotation.JSExportAll
 import scala.scalajs.js.native
-
 import com.greencatsoft.angularjs.Controller
 import com.greencatsoft.angularjs.core.Scope
 import com.greencatsoft.angularjs.inject
 import com.greencatsoft.angularjs.injectable
 import com.olivergg.starttabs.dto.Friend
 import com.olivergg.starttabs.scalaservice.FriendsService
-import com.olivergg.uirouter.StateParams
+import com.greencatsoft.angularjs.extensions.StateParams
 
 object FriendDetailController extends Controller {
 

@@ -6,5 +6,5 @@ import com.greencatsoft.angularjs.core.Promise
 
 @injectable("$ionicPlatform")
 trait IonicPlatform extends js.Object {
-  def ready(callback: js.Function0[_]): Promise = ???
+  def ready(callback: js.Function0[_]): Promise = js.native
 }

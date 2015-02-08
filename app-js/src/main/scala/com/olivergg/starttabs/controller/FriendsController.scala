@@ -20,6 +20,6 @@ object FriendsController extends Controller {
   }
 
   trait ScopeType extends Scope {
-    var friends: js.Array[Friend]
+    var friends: js.Array[Friend] = js.native
   }
 }

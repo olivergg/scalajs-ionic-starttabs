@@ -1,11 +1,11 @@
 package com.olivergg.starttabs
 
-import com.olivergg.uirouter.State
-import com.olivergg.uirouter.View
 import com.greencatsoft.angularjs.Config
-import com.olivergg.uirouter.StateProvider
-import com.olivergg.uirouter.UrlRouterProvider
 import com.greencatsoft.angularjs.inject
+import com.greencatsoft.angularjs.extensions.StateProvider
+import com.greencatsoft.angularjs.extensions.UrlRouterProvider
+import com.greencatsoft.angularjs.extensions.State
+import com.greencatsoft.angularjs.extensions.View
 /**
  * This object should be passed to the config method of an angular module in order to setup the states. 
  */

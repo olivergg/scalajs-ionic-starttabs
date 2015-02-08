@@ -9,11 +9,11 @@ trait IonicLoading extends js.Object {
   /**
    * Hides the loading indicator, if shown.
    */
-  def hide(): Unit = ???
+  def hide(): Unit = js.native
   /**
    * Shows a loading indicator. If the indicator is already shown, it will set the options given and keep the indicator shown.
    */
-  def show(opt: LoadingOpt): Unit = ???
+  def show(opt: LoadingOpt): Unit = js.native
 }
 
 trait LoadingOpt extends js.Object {
@@ -21,27 +21,27 @@ trait LoadingOpt extends js.Object {
   /**
    * The html content of the indicator.
    */
-  var template: String = _
+  var template: String = js.native
 
   /**
    * The url of an html template to load as the content of the indicator.
    */
-  var templateUrl: String = _
+  var templateUrl: String = js.native
 
   /**
    * Whether to hide the backdrop. By default it will be shown.
    */
-  var noBackdrop: Boolean = false
+  var noBackdrop: Boolean = js.native
 
   /**
    * How many milliseconds to delay showing the indicator. By default there is no delay.
    */
-  var delay: Double = _
+  var delay: Double = js.native
 
   /**
    * How many milliseconds to wait until automatically hiding the indicator. By default, the indicator will be shown until .hide() is called.
    */
-  var duration: Double = _
+  var duration: Double = js.native
 
 }
 

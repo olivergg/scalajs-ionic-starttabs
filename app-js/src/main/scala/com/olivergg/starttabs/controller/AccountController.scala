@@ -33,7 +33,7 @@ object AccountController extends Controller {
   }
 
   trait ScopeType extends Scope {
-    var ip: IPAddress
+    var ip: IPAddress = js.native
   }
 }
 
