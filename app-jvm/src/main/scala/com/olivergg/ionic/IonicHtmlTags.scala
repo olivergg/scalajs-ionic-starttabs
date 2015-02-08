@@ -12,6 +12,7 @@ object IonicHtmlTags {
   val ionItem = "ion-item".tag
   val ionTabs = "ion-tabs".tag
   val ionTab = "ion-tab".tag
+  val ionOptionButton = "ion-option-button".tag
   
   /// attr
   val ngApp = "ng-app".attr
@@ -20,5 +21,11 @@ object IonicHtmlTags {
   val ionPadding = "padding".attr
   val ngRepeat = "ng-repeat".attr
   val ngType= "type".attr
+  val ngClick = "ng-click".attr
   val icon = "icon".attr
+  val iconOff = "icon-off".attr
+  val iconOn  = "icon-on".attr
+  val ngSrc = "ng-src".attr
+  val ngModel = "ng-model".attr
+  val viewTitle = "view-title".attr
 }

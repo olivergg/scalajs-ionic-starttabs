@@ -39,16 +39,16 @@ object Index extends HtmlCompilable {
         script(src := s"js/$moduleName-launcher.js")(" ")
 
       ),
-      body(ngApp := "starter", animation := "no-animation")(
-        ionNavBar(cls := "bar-stable bar-positive", animation := "no-animation" /*nav-title-slide-ios7"*/ )(
-          ionNavBackButton(cls := "button-icon icon  ion-ios7-arrow-back")("Back")
+      body(ngApp := "starter")(
+        ionNavBar(cls := "bar-stable", animation := "no-animation" /*nav-title-slide-ios7"*/ )(
+          ionNavBackButton("Back")
         ),
         /**
          * The views will be rendered in the <ion-nav-view> directive below
          * Templates are in the /templates folder (but you could also
          * have templates inline in this html file if you'd like).
          */
-        ionNavView(animation := "no-animation")
+        ionNavView()
       )
     ).toString()
   }

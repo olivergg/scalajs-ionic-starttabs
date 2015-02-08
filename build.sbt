@@ -56,6 +56,7 @@ lazy val appJS = project.in(file("app-js"))
 	jsDependencies += RuntimeDOM,
 	/// Webjars dependencies
 	jsDependencies += "org.webjars" % "ionic" % "1.0.0-beta.14" / "ionic.bundle.min.js",
+	//jsDependencies += "org.webjars" % "angular-sanitize" % "1.3.11" / "angular-sanitize.min.js",
 	skip in packageJSDependencies := false,
 	////// SourceMaps configuration ////////////////////////
 	emitSourceMaps in (Compile, fastOptJS) := true,

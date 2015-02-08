@@ -12,18 +12,24 @@ object Tabs extends HtmlCompilable {
   def filePath: String = "templates/tabs.html"
 
   def output: String = {
-    ionTabs(cls := "tabs-icon-top tabs-background-positive tabs-striped tabs-light")(
+    ionTabs(cls := "tabs-icon-top tabs-color-active-positive")(
       // <!-- Dashboard Tab -->
-      ionTab(title := "Dashboard", icon := "icon ion-home", href := "#/tab/dash")(
+      ionTab(title := "Status", iconOff := "ion-ios7-pulse", iconOn := "ion-ios7-pulse-strong", href := "#/tab/dash")(
         ionNavView(name := "tab-dash")
       ),
+
+      // <!-- Chats Tab -->
+      ionTab(title := "Chats", iconOff := "ion-ios7-chatboxes-outline", iconOn := "ion-ios7-chatboxes", href := "#/tab/chats")(
+        ionNavView(name := "tab-chats")
+      ),
+
       // <!-- Friends Tab -->
-      ionTab(title := "Friends", icon := "icon ion-heart", href := "#/tab/friends")(
+      ionTab(title := "Friends", iconOff := "ion-ios7-heart-outline", iconOn := "ion-ios7-heart", href := "#/tab/friends")(
         ionNavView(name := "tab-friends")
       ),
 
       //<!-- Account Tab -->
-      ionTab(title := "Account", icon := "icon ion-gear-b", href := "#/tab/account")(
+      ionTab(title := "Account", iconOff := "ion-ios7-gear-outline", iconOn := "ion-ios7-gear", href := "#/tab/account")(
         ionNavView(name := "tab-account")
       )
     ).toString()

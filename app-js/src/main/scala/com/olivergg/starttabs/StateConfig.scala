@@ -7,15 +7,15 @@ import com.greencatsoft.angularjs.extensions.UrlRouterProvider
 import com.greencatsoft.angularjs.extensions.State
 import com.greencatsoft.angularjs.extensions.View
 /**
- * This object should be passed to the config method of an angular module in order to setup the states. 
+ * This object should be passed to the config method of an angular module in order to setup the states.
  */
 object StateConfig extends Config {
 
   @inject
-  var stateProvider:StateProvider = _
+  var stateProvider: StateProvider = _
   @inject
-  var urlRouterProvider:UrlRouterProvider = _ 
-  
+  var urlRouterProvider: UrlRouterProvider = _
+
   override def initialize() {
     println("initialize StateConfig")
     // Ionic uses AngularUI Router which uses the concept of states
@@ -40,6 +40,16 @@ object StateConfig extends Config {
       .state("tab.friends", State(
         url = "/friends",
         views = Map("tab-friends" -> View("templates/tab-friends.html", "FriendsCtrl"))
+      ))
+
+      .state("tab.chats", State(
+        url = "/chats",
+        views = Map("tab-chats" -> View("templates/tab-chats.html", "ChatsCtrl"))
+      ))
+
+      .state("tab.chat-detail", State(
+        url = "/chats/:chatId",
+        views = Map("tab-chats" -> View("templates/chat-detail.html", "ChatDetailCtrl"))
       ))
 
       .state("tab.friend-detail", State(

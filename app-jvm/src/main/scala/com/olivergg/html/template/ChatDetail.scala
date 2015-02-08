@@ -10,15 +10,14 @@ import com.olivergg.HtmlCompilable
  * The FriendsCtrl pulls data from a scala service FriendsService (not to be confused with angular services).
  * The Friends service returns an array of friend data
  */
-object FriendDetail extends HtmlCompilable {
-  override def filePath: String = "templates/friend-detail.html"
+object ChatDetail extends HtmlCompilable {
+  override def filePath: String = "templates/chat-detail.html"
 
   override def output: String = {
-    ionView(viewTitle := "{{friend.name}}")(
+    ionView(viewTitle := "{{chat.name}}")(
       ionContent(cls := "padding")(
-        img(ngSrc := "{{friend.face}}", style := "width:64px; height:64px"),
-        h3("Notes"),
-        p("{{friend.notes}}")
+        img(ngSrc := "{{chat.face}}", style := "width:64px; height:64px"),
+        p("{{chat.lastText}}")
       )
     ).toString()
   }
