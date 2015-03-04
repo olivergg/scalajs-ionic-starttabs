@@ -49,7 +49,7 @@ lazy val appJS = project.in(file("app-js"))
     name := "Scala-js Ionic Starter Application Tabs",
     normalizedName := "ionic-starttabs",
     libraryDependencies ++= Seq(
-    "org.scala-js" %%% "scalajs-dom" % "0.7.0",
+    "org.scala-js" %%% "scalajs-dom" % "0.8.0",
     "com.greencatsoft" %%% "scalajs-angular" % "0.4-SNAPSHOT",
     "com.github.benhutchison" %%% "prickle" % "1.1.3"
 	),
