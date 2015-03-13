@@ -7,15 +7,12 @@ import scala.scalajs.js
 import com.olivergg.ionic.IonicPlatform
 import com.greencatsoft.angularjs.inject
 import com.greencatsoft.angularjs.Runnable
+import com.greencatsoft.angularjs.injectable
 
-object PlatformInitializer extends Runnable {
+@injectable("PlatformInitializer")
+class PlatformInitializer(ionicPlatform: IonicPlatform) extends Runnable {
 
-  @inject
-  var ionicPlatform: IonicPlatform = _
-  
-  override def initialize() {
-    ionicPlatform.ready { () =>  println("ionicPlatform is ready") }
-      //TODO : use ngCordova to communicate with the cordova API in an angular way
-      //TODO : find a way to use cordova plugins with ionic serve in a web browser.
-  }
+  ionicPlatform.ready { () => println("ionicPlatform is ready") }
+  //TODO : use ngCordova to communicate with the cordova API in an angular way
+  //TODO : find a way to use cordova plugins with ionic serve in a web browser.
 }

@@ -62,7 +62,7 @@ object LoadingOpt {
   def apply(template: String, templateUrl: String = "", noBackdrop: Boolean = false, delay: Double = 0, duration: Double = 0): LoadingOpt = {
     val opt = new js.Object().asInstanceOf[LoadingOpt]
     opt.template = template
-    if (!templateUrl.isEmpty()) {
+    if (templateUrl.nonEmpty) {
       opt.templateUrl = templateUrl
     }
     opt.noBackdrop = noBackdrop

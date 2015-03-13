@@ -12,22 +12,17 @@ import com.olivergg.starttabs.scalaservice.FriendsService
 import com.greencatsoft.angularjs.extensions.StateParams
 import com.olivergg.starttabs.scalaservice.ChatsService
 import com.olivergg.starttabs.dto.Chat
+import com.greencatsoft.angularjs.AbstractController
 
-object ChatDetailController extends Controller {
+@injectable("ChatDetailCtrl")
+class ChatDetailController(scope: ChatDetailScope, stateParams: StateParams) extends AbstractController[ChatDetailScope](scope) {
 
-  override val name = "ChatDetailCtrl"
-  
-  @inject
-  var stateParams: StateParams = _
-  
-  
-  override def initialize(scope: ScopeType) {
-    println("init scope " + scope)
-    val cid: String = stateParams("chatId").asInstanceOf[String]
-    scope.chat = ChatsService.get(cid.toInt)
-  }
+  println("init ChatDetailCtrl")
+  val cid: String = stateParams("chatId").asInstanceOf[String]
+  scope.chat = ChatsService.get(cid.toInt)
 
-  trait ScopeType extends Scope {
-    var chat: Chat = native
-  }
+}
+
+trait ChatDetailScope extends Scope {
+  var chat: Chat = native
 }

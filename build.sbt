@@ -30,7 +30,7 @@ lazy val cleanOutputJS = taskKey[Unit]("Clean the output JS directory")
 
 lazy val appSharedSettings = Seq(
     version := "0.1-SNAPSHOT",
-    scalaVersion := "2.11.5",
+    scalaVersion := "2.11.6",
     unmanagedSourceDirectories in Compile += baseDirectory.value / ".." / "app-shared" / "src" / "main" / "scala",
     // Download and link sources for library dependencies (when using sbt eclipse)
 	EclipseKeys.withSource := true,
@@ -41,7 +41,7 @@ lazy val appSharedSettings = Seq(
 )
 
 lazy val appJS = project.in(file("app-js"))
-   // Turn this project into a Scala.js project by importing these settings
+   // Turn this project into a Scala.js project by enabling ScalaJSPlugin
   .enablePlugins(ScalaJSPlugin)
   .settings(appSharedSettings: _*)
   .settings(
@@ -50,7 +50,7 @@ lazy val appJS = project.in(file("app-js"))
     normalizedName := "ionic-starttabs",
     libraryDependencies ++= Seq(
     "org.scala-js" %%% "scalajs-dom" % "0.8.0",
-    "com.greencatsoft" %%% "scalajs-angular" % "0.4-SNAPSHOT",
+    "com.greencatsoft" %%% "scalajs-angular" % "0.5-SNAPSHOT",
     "com.github.benhutchison" %%% "prickle" % "1.1.3"
 	),
 	jsDependencies += RuntimeDOM,

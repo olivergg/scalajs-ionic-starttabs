@@ -10,20 +10,19 @@ import com.olivergg.starttabs.dto.Friend
 import com.olivergg.starttabs.scalaservice.FriendsService
 import com.olivergg.starttabs.scalaservice.ChatsService
 import com.olivergg.starttabs.dto.Chat
+import com.greencatsoft.angularjs.AbstractController
 
-object ChatsController extends Controller {
+@injectable("ChatsCtrl")
+class ChatsController(scope: ChatsScopeType) extends AbstractController[ChatsScopeType](scope) {
 
-  override val name = "ChatsCtrl"
+  println("init ChatsCtrl")
+  scope.chats = ChatsService.all().toJSArray
+  // removing elements will only impact scope.chats array, not the underlying initial array defined in ChatsService.
+  scope.remove = { chat: Chat => scope.chats.splice(scope.chats.indexOf(chat), 1) }
 
-  override def initialize(scope: ScopeType) {
-    println("init scope " + scope)
-    scope.chats = ChatsService.all().toJSArray
-    // removing elements will only impact scope.chats array, not the underlying initial array defined in ChatsService.
-    scope.remove = { chat: Chat => scope.chats.splice(scope.chats.indexOf(chat), 1) }
-  }
+}
 
-  trait ScopeType extends Scope {
-    var chats: js.Array[Chat] = js.native
-    var remove: js.Function1[Chat, _] = js.native
-  }
+trait ChatsScopeType extends Scope {
+  var chats: js.Array[Chat] = js.native
+  var remove: js.Function1[Chat, _] = js.native
 }

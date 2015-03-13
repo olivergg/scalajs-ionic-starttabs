@@ -10,22 +10,17 @@ import com.greencatsoft.angularjs.injectable
 import com.olivergg.starttabs.dto.Friend
 import com.olivergg.starttabs.scalaservice.FriendsService
 import com.greencatsoft.angularjs.extensions.StateParams
+import com.greencatsoft.angularjs.AbstractController
 
-object FriendDetailController extends Controller {
+@injectable("FriendDetailCtrl")
+class FriendDetailController(scope: FriendDetailScope, stateParams: StateParams) extends AbstractController[FriendDetailScope](scope) {
 
-  override val name = "FriendDetailCtrl"
-  
-  @inject
-  var stateParams: StateParams = _
-  
-  
-  override def initialize(scope: ScopeType) {
-    println("init scope " + scope)
-    val fid: String = stateParams("friendId").asInstanceOf[String]
-    scope.friend = FriendsService.get(fid.toInt)
-  }
+  println("init FriendDetailCtrl")
+  val fid: String = stateParams("friendId").asInstanceOf[String]
+  scope.friend = FriendsService.get(fid.toInt)
 
-  trait ScopeType extends Scope {
-    var friend: Friend = native
-  }
+}
+
+trait FriendDetailScope extends Scope {
+  var friend: Friend = native
 }

@@ -1,13 +1,13 @@
 package com.olivergg.starttabs.controller
 
 import com.greencatsoft.angularjs.Controller
+import com.greencatsoft.angularjs.core.Scope
+import com.greencatsoft.angularjs.injectable
+import com.greencatsoft.angularjs.AbstractController
 
-object DashController extends Controller {
+@injectable("DashCtrl")
+class DashController(scope:Scope) extends AbstractController[Scope](scope) {
 
-  override val name = "DashCtrl"
-  
-  override def initialize() {
-    println("init " + name)
-  }
+  println("init DashController")
 }
 

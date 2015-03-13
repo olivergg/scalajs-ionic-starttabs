@@ -15,25 +15,22 @@ import com.greencatsoft.angularjs.inject
 import com.olivergg.starttabs.dto.IPAddress
 import prickle._
 import com.olivergg.starttabs.service.BetterHttpService
+import com.greencatsoft.angularjs.injectable
+import com.greencatsoft.angularjs.AbstractController
 
-object AccountController extends Controller {
+@injectable("AccountCtrl")
+class AccountController(scope: AccountScope, betterHttp: BetterHttpService) extends AbstractController[AccountScope](scope) {
 
-  override val name = "AccountCtrl"
-
-  @inject
-  var betterHttp: BetterHttpService = _
-
-  override def initialize(scope: ScopeType) {
-    println("init " + name)
-    scope.ip = IPAddress("Unknown")
-    val ipAddressFut: Future[IPAddress] = betterHttp.getJsonAndUnpickle[IPAddress]("http://ip.jsontest.com/")
-    ipAddressFut.onSuccess {
-      case ip => println(s"response from server IP = $ip"); scope.ip = ip
-    }
+  println("init AccountController")
+  scope.ip = IPAddress("Unknown")
+  val ipAddressFut: Future[IPAddress] = betterHttp.getJsonAndUnpickle[IPAddress]("http://ip.jsontest.com/")
+  ipAddressFut.onSuccess {
+    case ip => println(s"response from server IP = $ip"); scope.ip = ip
   }
 
-  trait ScopeType extends Scope {
-    var ip: IPAddress = js.native
-  }
+}
+
+trait AccountScope extends Scope {
+  var ip: IPAddress = js.native
 }
 

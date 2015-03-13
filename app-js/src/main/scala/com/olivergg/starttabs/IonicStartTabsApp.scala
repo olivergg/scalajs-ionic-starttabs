@@ -27,18 +27,17 @@ object IonicStartTabsApp extends JSApp {
     // the 2nd parameter is an array of 'requires'
     // 'starter.controllers' is defined in controllers below
     val module = Angular.module("starter", Array("ionic", "starter.controllers", "ngCordova"))
-    module.run(PlatformInitializer)
-    module.config(StateConfig)
-    module.factory(BetterHttpServiceFactory)
+    module.run[PlatformInitializer]
+    module.config[StateConfig]
+    module.factory[BetterHttpServiceFactory]
 
     val controllers = Angular.module("starter.controllers", Array.empty[String])
-    controllers.controller(DashController)
-    controllers.controller(FriendsController)
-    controllers.controller(FriendDetailController)
-    controllers.controller(AccountController)
-    controllers.controller(ChatsController)
-    controllers.controller(ChatDetailController)
-    
+    module.controller[DashController]
+    module.controller[FriendsController]
+    module.controller[FriendDetailController]
+    module.controller[AccountController]
+    module.controller[ChatsController]
+    module.controller[ChatDetailController]
 
     println("end main")
 
