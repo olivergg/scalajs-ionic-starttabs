@@ -30,7 +30,7 @@ lazy val cleanOutputJS = taskKey[Unit]("Clean the output JS directory")
 
 lazy val appSharedSettings = Seq(
     version := "0.1-SNAPSHOT",
-    scalaVersion := "2.11.6",
+    scalaVersion := "2.11.7",
     unmanagedSourceDirectories in Compile += baseDirectory.value / ".." / "app-shared" / "src" / "main" / "scala",
     // Download and link sources for library dependencies (when using sbt eclipse)
 	EclipseKeys.withSource := true,
@@ -51,7 +51,7 @@ lazy val appJS = project.in(file("app-js"))
     libraryDependencies ++= Seq(
     "org.scala-js" %%% "scalajs-dom" % "0.8.0",
     "com.greencatsoft" %%% "scalajs-angular" % "0.5-SNAPSHOT",
-    "com.github.benhutchison" %%% "prickle" % "1.1.3"
+    "com.github.benhutchison" %%% "prickle" % "1.1.7"
 	),
 	jsDependencies += RuntimeDOM,
 	/// Webjars dependencies
@@ -88,7 +88,7 @@ lazy val appJVM = project.in(file("app-jvm"))
     name := "Scala-js Ionic Starter Application Tabs (JVM)",
     normalizedName := "ionic-starttabs",
     libraryDependencies ++= Seq(
-    "com.lihaoyi" %% "scalatags" % "0.4.5"
+    "com.lihaoyi" %% "scalatags" % "0.5.2"
 	),
 	getCompileToHtmlPartialFunctionTask := {
 	  implicit val classPathFiles:Seq[sbt.File] = (fullClasspath in Runtime).value.files
