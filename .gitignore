@@ -21,6 +21,8 @@ project/plugins/project/
 # eclipse
 .classpath
 
+# idea
+.idea/
 
 .cache
 .project
