@@ -7,6 +7,7 @@ import prickle.{Unpickle, Unpickler}
 
 import scala.concurrent.Future
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.runNow
+import scala.scalajs.js
 import scala.scalajs.js.JSON
 import scala.util.{Failure, Success, Try}
 
@@ -15,7 +16,7 @@ class BetterHttpService(http: HttpService, loading: IonicLoading) extends Servic
 
   def getJsonAndUnpickle[T: Unpickler](url: String): Future[T] = {
     loading.show(LoadingOpt("Loading..."))
-    val getFuture = http.get(url) // implicit conversion occurs here.
+    val getFuture = http.get[js.Any](url) // implicit conversion occurs here.
     getFuture.onFailure {
       case err =>
         loading.hide()

@@ -16,6 +16,7 @@ class FriendsController(scope: FriendsScope) extends AbstractController[FriendsS
 
 }
 
+@js.native
 trait FriendsScope extends Scope {
   var friends: js.Array[Friend] = js.native
 }

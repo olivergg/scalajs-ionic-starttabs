@@ -1,10 +1,11 @@
 package com.olivergg.ionic
 
-import scala.scalajs.js
 import com.greencatsoft.angularjs.injectable
-import com.greencatsoft.angularjs.core.Promise
+
+import scala.scalajs.js
 
 @injectable("$ionicLoading")
+@js.native
 trait IonicLoading extends js.Object {
   /**
    * Hides the loading indicator, if shown.
@@ -16,6 +17,7 @@ trait IonicLoading extends js.Object {
   def show(opt: LoadingOpt): Unit = js.native
 }
 
+@js.native
 trait LoadingOpt extends js.Object {
 
   /**

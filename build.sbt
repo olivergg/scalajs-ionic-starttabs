@@ -50,7 +50,7 @@ lazy val appJS = project.in(file("app-js"))
     normalizedName := "ionic-starttabs",
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "0.8.0",
-      "com.greencatsoft" %%% "scalajs-angular" % "0.5",
+      "com.greencatsoft" %%% "scalajs-angular" % "0.6-SNAPSHOT",
       "com.github.benhutchison" %%% "prickle" % "1.1.9"
     ),
     jsDependencies += RuntimeDOM,
@@ -105,5 +105,5 @@ lazy val appJVM = project.in(file("app-jvm"))
     }
   )
 
-addCommandAlias("serve", ";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlDevTask ;fastOptJS")
+addCommandAlias("watch", "~ ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlDevTask ;fastOptJS")
 addCommandAlias("dist", ";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlProdTask ;fullOptJS")
