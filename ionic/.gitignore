@@ -5,5 +5,5 @@ node_modules/
 platforms/
 plugins/
 hooks/
-hooks/*
+#hooks/*
 nohup.out

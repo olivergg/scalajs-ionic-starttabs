@@ -24,8 +24,7 @@ object Index extends HtmlCompilable {
         meta(charset := "utf-8"),
         meta(name := "viewport", content := "initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"),
         htitle("Scala.js Ionic Start Tabs Application"),
-        // <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
-        meta(httpEquiv := "Content-Security-Policy", content := "default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"),
+        meta(httpEquiv := "Content-Security-Policy", content := "default-src: *;"),
 
         link(href := "lib/ionic/css/ionic.min.css", rel := "stylesheet"),
         link(href := "css/style.css", rel := "stylesheet"),
