@@ -24,7 +24,7 @@ object Index extends HtmlCompilable {
         meta(charset := "utf-8"),
         meta(name := "viewport", content := "initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"),
         htitle("Scala.js Ionic Start Tabs Application"),
-        meta(httpEquiv := "Content-Security-Policy", content := "default-src * 'unsafe-inline';"),
+        meta(httpEquiv := "Content-Security-Policy", content := "default-src * 'unsafe-inline' 'unsafe-eval';"),
         link(href := "lib/ionic/css/ionic.min.css", rel := "stylesheet"),
         link(href := "css/style.css", rel := "stylesheet"),
         // ionic/angularjs is included in the bundled jsdeps created by scala-js.
