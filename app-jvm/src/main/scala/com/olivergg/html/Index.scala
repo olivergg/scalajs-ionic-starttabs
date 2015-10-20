@@ -11,10 +11,6 @@ object Index extends HtmlCompilable {
 
   override def filePath: String = "index.html"
 
-  //  override def filePath: String = optMode match {
-  //    case "fastOpt" => "index-dev.html"
-  //    case "fullOpt" => "index-prod.html"
-  //  }
   override def withDocType: Boolean = true
 
   override def output: String = {
@@ -28,6 +24,9 @@ object Index extends HtmlCompilable {
         meta(charset := "utf-8"),
         meta(name := "viewport", content := "initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"),
         htitle("Scala.js Ionic Start Tabs Application"),
+        // <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+        meta(httpEquiv := "Content-Security-Policy", content := "default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"),
+
         link(href := "lib/ionic/css/ionic.min.css", rel := "stylesheet"),
         link(href := "css/style.css", rel := "stylesheet"),
         // ionic/angularjs is included in the bundled jsdeps created by scala-js.

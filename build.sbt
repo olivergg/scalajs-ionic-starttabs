@@ -105,5 +105,5 @@ lazy val appJVM = project.in(file("app-jvm"))
     }
   )
 
-addCommandAlias("dev", ";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlDevTask ;fastOptJS")
+addCommandAlias("serve", ";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlDevTask ;fastOptJS")
 addCommandAlias("dist", ";cleanOutputJS ;packageJSDependencies ;packageScalaJSLauncher ;compileHtmlProdTask ;fullOptJS")
