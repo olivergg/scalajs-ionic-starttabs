@@ -29,7 +29,7 @@ import sbt.Keys.TaskStreams
  *
  *
  */
-object MyBuild extends Build {
+object IonicBuild extends Build {
 
   // customizable val here
   lazy val outputCompiledJS = new File("ionic/www/js")
@@ -48,7 +48,7 @@ object MyBuild extends Build {
    */
   def cleanOutputJSDir()(implicit logger:TaskStreams): Unit = {
     val filteredIterator = Path(outputCompiledJS) walkFilter { p =>
-      p.isDirectory || !p.name.startsWith((".")) && (p.name.endsWith(".js") || p.name.endsWith(".map"))
+      p.isDirectory || !p.name.startsWith(".") && (p.name.endsWith(".js") || p.name.endsWith(".map"))
     }
     for (f <- filteredIterator) {
       IO.delete(new File(f.path))
@@ -80,9 +80,9 @@ object MyBuild extends Build {
     // println(s"Entering compileToHtml for fqcn = $fqcn, optMode=$optMode, moduleName=$moduleName")
     // see http://www.scala-sbt.org/0.13.2/docs/Howto/classpaths.html
     val loader: ClassLoader = sbt.classpath.ClasspathUtilities.toLoader(classPathFiles)
-    val withoutJarClassPathFiles = classPathFiles.filterNot(f => f.getAbsolutePath().endsWith(".jar"))
+    val withoutJarClassPathFiles = classPathFiles.filterNot(f => f.getAbsolutePath.endsWith(".jar"))
     require(withoutJarClassPathFiles.size == 1, "there should be only one non jar class path element")
-    val htmlScalaSourceAbsoluteDir = new File(withoutJarClassPathFiles(0).getAbsolutePath() + "/" + htmlScalaSourceDir)
+    val htmlScalaSourceAbsoluteDir = new File(withoutJarClassPathFiles.head.getAbsolutePath + "/" + htmlScalaSourceDir)
 
     val filteredIterator = Path(htmlScalaSourceAbsoluteDir) walkFilter { p =>
       // recursively search for .class files that do not contain a  $  sign.
@@ -99,16 +99,16 @@ object MyBuild extends Build {
     /**
      * Local method to create a filtering method to keep only the FQCN that matches the input fqcn parameter if it is not empty.
      */
-    def matchInputFqcn(in: String): Boolean = (fqcn.isEmpty() || in == fqcn)
-    val iteratorMappedToFQCN = filteredIterator.map(convertToFQCN(_)).filter(matchInputFqcn(_))
+    def matchInputFqcn(in: String): Boolean = fqcn.isEmpty || in == fqcn
+    val iteratorMappedToFQCN = filteredIterator.map(convertToFQCN).filter(matchInputFqcn)
 
     for (f <- iteratorMappedToFQCN) {
       // load the Object using reflection (see http://www.scala-lang.org/old/node/7065).
       val classz = Class.forName(f + "$", true, loader)
-      if (!classz.isInterface()) {
+      if (!classz.isInterface) {
         val tryClassInstance = Try(classz.getField("MODULE$").get(null).asInstanceOf[HtmlCompilableStructType])
         tryClassInstance match {
-          case Success(classInstance) => {
+          case Success(classInstance) =>
             classInstance.setOptMode(optMode.name)
             classInstance.setModuleName(moduleName)
             val fileName = classInstance.filePath
@@ -116,10 +116,9 @@ object MyBuild extends Build {
             val withDocType = classInstance.withDocType
             // append a DOCTYPE (if needed) and pretty format the string to write
             val stringToWrite = (if (withDocType) "<!DOCTYPE html>\n" else "") + prettier.format(scala.xml.XML.loadString(fragString))
-            val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath() + "/" + fileName)
+            val pathToWrite = Paths.get(outputCompiledHTML.getAbsolutePath + "/" + fileName)
             Files.write(pathToWrite, stringToWrite.getBytes(StandardCharsets.UTF_8))
             logger.log.info(s"compileToHtml succeeded : $f compiled to $pathToWrite")
-          }
           case Failure(err) => logger.log.error(s"Failed compiling $f with error $err but continue anyway to treat other files !")
           case _ => logger.log.warn(s"Ignoring $f")
         }
